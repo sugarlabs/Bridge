@@ -1,47 +1,72 @@
-import tools
-import olpcgames
-import pygame
-from sugar.graphics.radiotoolbutton import RadioToolButton
-from sugar.activity import activity
-from gettext import gettext as _
+
+import sys
+sys.path.insert(0, ".")
 import gtk
+import pygame
+
+from sugar.activity import activity
+from sugar.graphics.toolbarbox import ToolbarBox
+from sugar.activity.widgets import ActivityToolbarButton
+from sugar.graphics.toolbutton import ToolButton
+from sugar.activity.widgets import StopButton
+from gettext import gettext as _
+
+import sugargame.canvas
+
+import tools
+import physics
 
 
-class BridgeActivity(olpcgames.PyGameActivity):
-    game_name = 'physics'
-    game_title = 'Bridge'
-    game_size = None # olpcgame will choose size
+class BridgeActivity(activity.Activity):
 
-    # setup the toolbar
-    def build_toolbar(self):        
-        # make a toolbox
-        toolbox = activity.ActivityToolbox(self)
-         
-        # modify the Activity tab
-        activity_toolbar = toolbox.get_activity_toolbar()
-        activity_toolbar.share.props.visible = False
+    def __init__(self, handle):
+        activity.Activity.__init__(self, handle)
+
+        self.game = physics.PhysicsGame()
+        self.build_toolbar()
+        self._pygamecanvas = sugargame.canvas.PygameCanvas(self)
+        self.set_canvas(self._pygamecanvas)
+        self._pygamecanvas.grab_focus()
+        self._pygamecanvas.run_pygame(self.game.run)
+
+    def build_toolbar(self):
+        toolbar_box = ToolbarBox()
+        self.set_toolbar_box(toolbar_box)
+        toolbar_box.show()
+
+        activity_button = ActivityToolbarButton(self)
+        toolbar_box.toolbar.insert(activity_button, -1)
+        activity_button.show()
+
         self.blocklist = [] 
-        # make a 'create' toolbar
-        create_toolbar = gtk.Toolbar()
-        
-        # make + add the component buttons
         self.radioList = {}
         for c in tools.allTools:                             
-            button = RadioToolButton(named_icon=c.icon)
+            button = ToolButton(c.icon)
             button.set_tooltip(_(c.toolTip))
             button.connect('clicked',self.radioClicked)
-            create_toolbar.insert(button,-1)    
+            toolbar_box.toolbar.insert(button, -1)    
             button.show()
             self.radioList[button] = c.name
+       
+        separator = gtk.SeparatorToolItem()
+        separator.props.draw = False
+        separator.set_expand(True)
+        toolbar_box.toolbar.insert(separator, -1)
+        separator.show()
 
-        # add the toolbars to the toolbox
-        toolbox.add_toolbar("Create",create_toolbar)
-        create_toolbar.show()       
-        
-        toolbox.show()
-        self.set_toolbox(toolbox)
-        toolbox.set_current_toolbar(1)
-        return activity_toolbar
+        stop_button = StopButton(self)
+        toolbar_box.toolbar.insert(stop_button, -1)
+        stop_button.show()
+
+        self.show_all()
 
     def radioClicked(self,button):
-        pygame.event.post(olpcgames.eventwrap.Event(pygame.USEREVENT, action=self.radioList[button]))
+        evt = pygame.event.Event(pygame.USEREVENT, action=self.radioList[button])
+        pygame.event.post(evt)
+
+    def read_file(self, file_path):
+        pass
+
+    def write_file(self, file_path):
+        pass
+

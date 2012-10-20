@@ -16,10 +16,11 @@ License:  GPLv3 http://gplv3.fsf.org/
 
 import sys
 import math
+import gtk
 import pygame
 from pygame.locals import *
 from pygame.color import *
-import olpcgames
+
 import elements
 from elements import Elements
 import tools
@@ -28,12 +29,16 @@ from helpers import *
 from gettext import gettext as _
 
 class PhysicsGame:
-    def __init__(self,screen):
-        self.screen = screen
+    def __init__(self):
+        pass
+        
+    def run(self):
+        pygame.init()
+        self.screen = pygame.display.get_surface()
         # get everything set up
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 24) # font object
-        self.canvas = olpcgames.ACTIVITY.canvas
+        #self.canvas = olpcgames.ACTIVITY.canvas
         self.joystickobject = None 
         self.debug = True
 
@@ -53,14 +58,17 @@ class PhysicsGame:
 
         self.bridge = Bridge(self)
         self.bridge.create_world()
-        
-    def run(self):
+
+
         self.running = True
         t = pygame.time.get_ticks()
         while self.running:
             if (pygame.time.get_ticks() - t) > 1500:
 #                bridge.create_train(self)
                 t = pygame.time.get_ticks()
+
+            while gtk.events_pending():
+                gtk.main_iteration()
                 
             for event in pygame.event.get():
                 self.currentTool.handleEvents(event)

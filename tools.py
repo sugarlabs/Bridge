@@ -54,9 +54,9 @@ class Tool(object):
         elif event.type == USEREVENT:
             if hasattr(event,"action"):
                 if self.game.toolList.has_key(event.action): self.game.setTool(event.action)
-        elif event.type == MOUSEBUTTONDOWN and event.button == 1:
-            self.game.canvas.grab_focus()
-            handled = False
+        #elif event.type == MOUSEBUTTONDOWN and event.button == 1:
+            #self.game._pygamecanvas.canvas.grab_focus()
+             #handled = False
         else:
             handled = False
         return handled                                     
@@ -86,23 +86,24 @@ class CircleTool(Tool):
         if not super(CircleTool,self).handleEvents(event):
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    self.pt1 = pygame.mouse.get_pos()                    
+                    self.pt1 = pygame.mouse.get_pos()
             elif event.type == MOUSEBUTTONUP:
                 if event.button == 1:                    
                     if self.radius > 1: # elements doesn't like tiny shapes :(
-                        self.game.world.add.ball(self.pt1,self.radius, dynamic=True, density=1.0, restitution=0.16, friction=0.5)                    
+                        self.game.world.add.ball(self.pt1,self.radius, dynamic=True, density=1.0, restitution=0.16, friction=0.5)
                     self.pt1 = None        
                     self.radius = None            
     def draw(self):
         # draw a circle from pt1 to mouse
         if self.pt1 != None:
-            self.radius = distance(self.pt1,pygame.mouse.get_pos())
+            mouse_pos = pygame.mouse.get_pos()
+            self.radius = distance(self.pt1, mouse_pos)
             if self.radius > 3: 
                 thick = 3
             else:
                 thick = 0
-            pygame.draw.circle(self.game.screen, (100,180,255),self.pt1,self.radius,thick) 
-            pygame.draw.line(self.game.screen,(100,180,255),self.pt1,pygame.mouse.get_pos(),1)  
+            pygame.draw.circle(self.game.screen, (100,180,255),self.pt1,int(self.radius),thick)
+            pygame.draw.line(self.game.screen,(100,180,255),self.pt1,mouse_pos,1)
     def cancel(self):
         self.pt1 = None  
         self.radius = None
