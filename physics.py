@@ -16,24 +16,28 @@ License:  GPLv3 http://gplv3.fsf.org/
 
 import sys
 import math
+import gtk
 import pygame
 from pygame.locals import *
 from pygame.color import *
-import olpcgames
+
 import elements
-from elements import Elements
 import tools
 from bridge import Bridge
 from helpers import *
 from gettext import gettext as _
 
 class PhysicsGame:
-    def __init__(self,screen):
-        self.screen = screen
+    def __init__(self):
+        pass
+        
+    def run(self):
+        pygame.init()
+        self.screen = pygame.display.get_surface()
         # get everything set up
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(None, 24) # font object
-        self.canvas = olpcgames.ACTIVITY.canvas
+        self.font = pygame.font.Font(None, 42) # font object
+        #self.canvas = olpcgames.ACTIVITY.canvas
         self.joystickobject = None 
         self.debug = True
 
@@ -53,19 +57,22 @@ class PhysicsGame:
 
         self.bridge = Bridge(self)
         self.bridge.create_world()
-        
-    def run(self):
+
+
         self.running = True
         t = pygame.time.get_ticks()
         while self.running:
             if (pygame.time.get_ticks() - t) > 1500:
 #                bridge.create_train(self)
                 t = pygame.time.get_ticks()
+
+            while gtk.events_pending():
+                gtk.main_iteration()
                 
             for event in pygame.event.get():
                 self.currentTool.handleEvents(event)
             # Clear Display
-            self.screen.fill((80,160,240)) #255 for white
+            self.screen.fill((80, 160, 240)) #255 for white
 
             # Update & Draw World
             self.world.update()
@@ -77,21 +84,21 @@ class PhysicsGame:
             self.currentTool.draw()
 
             #Print all the text on the screen
-            text = self.font.render(_("Total Cost: %d") % self.bridge.cost, True, (0,0,0))
-            textpos = text.get_rect(left=100,top=7)
+            text = self.font.render(_("Total Cost: %d") % self.bridge.cost, True, (0, 0, 0))
+            textpos = text.get_rect(left=12, top=12)
             self.screen.blit(text,textpos)
-            ratio = self.bridge.stress*100/self.bridge.capacity
-            text = self.font.render(_("Stress: %d%%") % ratio, True, (0,0,0))
-            textpos = text.get_rect(left=100,top=25)
+            ratio = self.bridge.stress * 100 / self.bridge.capacity
+            text = self.font.render(_("Stress: %d%%") % ratio, True, (0, 0, 0))
+            textpos = text.get_rect(left=12, top=53)
             self.screen.blit(text,textpos)
 
             if self.bridge.train_off_screen:
-                text = self.font.render(_("Train fell off the screen, press R to try again!"), True, (0,0,0))
+                text = self.font.render(_("Train fell off the screen, press R to try again!"), True, (0, 0, 0))
             elif self.bridge.level_completed:
-                text = self.font.render(_("Level completed, well done!!  Press T to send another train."), True, (0,0,0))
+                text = self.font.render(_("Level completed, well done!!  Press T to send another train."), True, (0, 0, 0))
             else:
-                text = self.font.render(_("Press the Spacebar to start/pause."), True, (0,0,0))
-            textpos = text.get_rect(left=100,top=43)
+                text = self.font.render(_("Press the Spacebar to start/pause."), True, (0, 0, 0))
+            textpos = text.get_rect(left=12, top=94)
             self.screen.blit(text,textpos)
 
             # Flip Display
@@ -110,7 +117,7 @@ def main():
     pygame.init()
     pygame.display.init()
     x,y  = pygame.display.list_modes()[0]
-    screen = pygame.display.set_mode((x,y-toolbarheight-tabheight))
+    screen = pygame.display.set_mode((x,y - toolbarheight - tabheight))
     # create an instance of the game
     game = PhysicsGame(screen) 
     # start the main loop
