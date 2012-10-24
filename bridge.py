@@ -74,7 +74,7 @@ class Bridge:
                         pygame.draw.circle(self.screen, (int(force/2),
                                                255-int(force/2),0), coord, 4)
             except AttributeError:
-                print "*** hit an AttributeError", j
+                pass
         pos = self.first_train.GetPosition()
         if pos.x > 14.0:
             if not self.level_completed:
