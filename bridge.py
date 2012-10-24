@@ -12,7 +12,9 @@ class Bridge:
         self.train_off_screen = False
         self.train_was_created = False
         self.level_completed = False
-        self.sounds = {"wooo":loadSound("sounds/wooo.wav"), "death":loadSound("sounds/death.wav"), "startup":loadSound("sounds/startup.wav")}
+        self.sounds = {"wooo":loadSound("sounds/wooo.wav"),
+                       "death":loadSound("sounds/death.wav"),
+                       "startup":loadSound("sounds/startup.wav")}
 
     def restart(self):
         self.world.run_physics = False
@@ -72,7 +74,7 @@ class Bridge:
                         coord = int(self.world.meter_to_screen(vec.x)), \
                                 int(780 - self.world.meter_to_screen(vec.y))
                         pygame.draw.circle(self.screen, (int(force / 2),
-                                               255-int(force / 2), 0), coord, 4)
+                                           255-int(force / 2), 0), coord, 4)
             except AttributeError:
                 pass
         pos = self.first_train.GetPosition()
@@ -103,8 +105,10 @@ class Bridge:
             rect = pygame.Rect(startpoint, train)
             rect.normalize()
             pygame.draw.rect(self.screen, (200, 50, 100), rect, 3)
-            rect = self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
-                dynamic = True, density=10.0, restitution=0.16, friction=0.5)
+            rect = self.world.add.rect(rect.center, rect.width / 2,
+                                       rect.height / 2, dynamic = True,
+                                       density=10.0, restitution=0.16,
+                                       friction=0.5)
             if i == 0:
                 self.first_train = rect
                 
