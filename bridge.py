@@ -24,12 +24,12 @@ class Bridge:
 
     def create_world(self):
         self.world.set_color((100, 150, 50))
-        rect = pygame.Rect((-400, 800), (750, -250))
+        rect = pygame.Rect((-400, 825), (750, -250))
         rect.normalize()
         pygame.draw.rect(self.screen, (100, 180, 255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
             dynamic=False)
-        rect = pygame.Rect((1600, 800), (-750, -250))
+        rect = pygame.Rect((1600, 825), (-750, -250))
         rect.normalize()
         pygame.draw.rect(self.screen, (100, 180, 255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
@@ -72,9 +72,11 @@ class Bridge:
                     else:
                         vec = j.GetAnchor1()
                         coord = int(self.world.meter_to_screen(vec.x)), \
-                                int(780 - self.world.meter_to_screen(vec.y))
-                        pygame.draw.circle(self.screen, (int(force / 2),
-                                           255 - int(force / 2), 0), coord, 4)
+                                int(self.screen.get_height() -
+                                            self.world.meter_to_screen(vec.y))
+                        pygame.draw.circle(self.screen,
+                                    (int(force / 2), 255 - int(force / 2), 0),
+                                                                     coord, 6)
             except AttributeError:
                 pass
         pos = self.first_train.GetPosition()
