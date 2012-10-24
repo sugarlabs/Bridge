@@ -22,7 +22,6 @@ from pygame.locals import *
 from pygame.color import *
 
 import elements
-from elements import Elements
 import tools
 from bridge import Bridge
 from helpers import *

@@ -1,6 +1,7 @@
 
 import sys
-sys.path.insert(0, ".")
+sys.path.append("lib/Elements-0.13-py2.5-bridge.egg")
+sys.path.append("lib/Box2D-2.0.2b1-py2.5-linux-i686.egg")
 import gtk
 import pygame
 

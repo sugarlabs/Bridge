@@ -4,7 +4,7 @@
 #                           By Alex Levenson
 #==================================================================
 import pygame
-from elements import box2d
+import Box2D as box2d
 from pygame.locals import *
 from helpers import *
 from inspect import getmro
