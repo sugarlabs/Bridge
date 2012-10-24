@@ -74,7 +74,7 @@ class Bridge:
                         coord = int(self.world.meter_to_screen(vec.x)), \
                                 int(780 - self.world.meter_to_screen(vec.y))
                         pygame.draw.circle(self.screen, (int(force / 2),
-                                           255-int(force / 2), 0), coord, 4)
+                                           255 - int(force / 2), 0), coord, 4)
             except AttributeError:
                 pass
         pos = self.first_train.GetPosition()
