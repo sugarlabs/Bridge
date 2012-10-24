@@ -102,8 +102,10 @@ class CircleTool(Tool):
                 thick = 3
             else:
                 thick = 0
-            pygame.draw.circle(self.game.screen, (100,180,255),self.pt1,int(self.radius),thick)
-            pygame.draw.line(self.game.screen,(100,180,255),self.pt1,mouse_pos,1)
+            pygame.draw.circle(self.game.screen, (100, 180, 255), self.pt1,
+                                                       int(self.radius), thick)
+            pygame.draw.line(self.game.screen, (100, 180, 255), self.pt1,
+                                                       mouse_pos, 1)
     def cancel(self):
         self.pt1 = None  
         self.radius = None
@@ -148,7 +150,13 @@ class GirderTool(Tool):
                         elif self.red < 20:
                             self.colordiff *= -1
                         print self.theta, math.degrees(self.theta)
-                        self.game.world.add.rect(((self.pt1[0]+self.pt2[0])/2,(self.pt1[1]+self.pt2[1])/2), distance(self.pt1, self.pt2)/2, self.thickness/2, angle=math.degrees(self.theta), dynamic=True, density=1.0, restitution=0.16, friction=0.5)
+                        self.game.world.add.rect(((self.pt1[0] + self.pt2[0]) / 2,
+                                                 (self.pt1[1] + self.pt2[1]) / 2),
+                                                 distance(self.pt1, self.pt2) / 2,
+                                                 self.thickness / 2,
+                                                 angle=math.degrees(self.theta),
+                                                 dynamic=True, density=1.0,
+                                                 restitution=0.16, friction=0.5)
                         self.game.bridge.box_added()
                         self.game.world.reset_color()
                     self.pt1 = None        
@@ -157,14 +165,16 @@ class GirderTool(Tool):
         # draw a box from pt1 to mouse
         if self.pt1 != None:
             self.pt2 = pygame.mouse.get_pos()
-            self.theta = getAngle(self.pt1,self.pt2)
-            if distance2(self.pt1,self.pt2,self.min):
+            self.theta = getAngle(self.pt1, self.pt2)
+            if distance2(self.pt1,self.pt2, self.min):
                 # too small! force length              
-                self.pt2 = (self.pt1[0]+self.min * math.cos(self.theta),self.pt1[1]-self.min*math.sin(self.theta))
+                self.pt2 = (self.pt1[0] + self.min * math.cos(self.theta),
+                                      self.pt1[1] - self.min*math.sin(self.theta))
             elif not distance2(self.pt1,self.pt2,self.max):
                 # too big
-                self.pt2 = (self.pt1[0]+(self.max * math.cos(self.theta)),self.pt1[1]-(self.max * math.sin(self.theta)))         
-            pygame.draw.line(self.game.screen, (255,255,255), self.pt1, self.pt2, 30)
+                self.pt2 = (self.pt1[0] + (self.max * math.cos(self.theta)), 
+                                  self.pt1[1] - (self.max * math.sin(self.theta)))         
+            pygame.draw.line(self.game.screen, (255, 255, 255), self.pt1, self.pt2, 30)
     def cancel(self):
         self.pt1 = None  
         self.rect = None      
@@ -184,7 +194,8 @@ class GrabTool(Tool):
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     # grab the first object at the mouse pointer
-                    bodylist = self.game.world.get_bodies_at_pos(event.pos, include_static=False) 
+                    bodylist = self.game.world.get_bodies_at_pos(event.pos,
+                                                              include_static=False) 
                     if bodylist and len(bodylist) > 0:
                         self.game.world.add.mouseJoint(bodylist[0], event.pos)               
             elif event.type == MOUSEBUTTONUP:
@@ -234,7 +245,7 @@ class DestroyTool(Tool):
         # draw the trail
         if self.vertices:
             if len(self.vertices) > 1:
-                pygame.draw.lines(self.game.screen,(255,0,0),False,self.vertices,3)
+                pygame.draw.lines(self.game.screen,(255, 0, 0), False, self.vertices, 3)
 
     def cancel(self):
         self.vertices = None     
@@ -257,7 +268,7 @@ class BridgeJointTool(Tool):
             return
 
         bodies = self.game.world.get_bodies_at_pos(event.pos,
-            include_static=True)
+                                                include_static=True)
         if not bodies or len(bodies) > 2:
             return
             
@@ -266,7 +277,7 @@ class BridgeJointTool(Tool):
             if not bodies[0].IsStatic():
                 if event.pos[1] > 550 and (event.pos[0] < 350 or event.pos[0] > 850):
                     jointDef.Initialize(self.game.world.world.GetGroundBody(), 
-                        bodies[0], self.to_b2vec(event.pos))
+                                               bodies[0], self.to_b2vec(event.pos))
                 else:
                     return
             else:
@@ -274,10 +285,10 @@ class BridgeJointTool(Tool):
         elif len(bodies) == 2: 
             if bodies[0].IsStatic():
                 jointDef.Initialize(self.game.world.world.GetGroundBody(), 
-                    bodies[1], self.to_b2vec(event.pos))
+                                          bodies[1], self.to_b2vec(event.pos))
             elif bodies[1].IsStatic():
                 jointDef.Initialize(self.game.world.world.GetGroundBody(), 
-                    bodies[0], self.to_b2vec(event.pos))
+                                          bodies[0], self.to_b2vec(event.pos))
             else:
                 jointDef.Initialize(bodies[0], bodies[1], self.to_b2vec(event.pos))
         joint = self.game.world.world.CreateJoint(jointDef)
