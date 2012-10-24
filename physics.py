@@ -36,7 +36,7 @@ class PhysicsGame:
         self.screen = pygame.display.get_surface()
         # get everything set up
         self.clock = pygame.time.Clock()
-        self.font = pygame.font.Font(None, 24) # font object
+        self.font = pygame.font.Font(None, 42) # font object
         #self.canvas = olpcgames.ACTIVITY.canvas
         self.joystickobject = None 
         self.debug = True
@@ -85,11 +85,11 @@ class PhysicsGame:
 
             #Print all the text on the screen
             text = self.font.render(_("Total Cost: %d") % self.bridge.cost, True, (0, 0, 0))
-            textpos = text.get_rect(left=100, top=7)
+            textpos = text.get_rect(left=12, top=12)
             self.screen.blit(text,textpos)
             ratio = self.bridge.stress * 100 / self.bridge.capacity
             text = self.font.render(_("Stress: %d%%") % ratio, True, (0, 0, 0))
-            textpos = text.get_rect(left=100, top=25)
+            textpos = text.get_rect(left=12, top=53)
             self.screen.blit(text,textpos)
 
             if self.bridge.train_off_screen:
@@ -98,7 +98,7 @@ class PhysicsGame:
                 text = self.font.render(_("Level completed, well done!!  Press T to send another train."), True, (0, 0, 0))
             else:
                 text = self.font.render(_("Press the Spacebar to start/pause."), True, (0, 0, 0))
-            textpos = text.get_rect(left=100, top=43)
+            textpos = text.get_rect(left=12, top=94)
             self.screen.blit(text,textpos)
 
             # Flip Display
