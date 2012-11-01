@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: physics 03\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-14 00:29-0400\n"
+"POT-Creation-Date: 2012-10-24 00:31-0400\n"
 "PO-Revision-Date: 2008-09-14 00:30-0400\n"
 "Last-Translator: Nirav Patel <olpc@spongezone.net>\n"
 "Language-Team: Spanish\n"
@@ -16,29 +16,31 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Translate Toolkit 1.7.0\n"
 
-#: activity/activity.info:2
+#. TRANS: "name" option from activity.info file
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
 msgid "Bridge"
 msgstr "Puente"
 
-#: physics.py:83
+#: physics.py:87
 #, python-format
 msgid "Total Cost: %d"
 msgstr "Coste Total: %d"
 
-#: physics.py:87
+#: physics.py:91
 #, python-format
 msgid "Stress: %d%%"
 msgstr "Presion: %d%%"
 
-#: physics.py:92
+#: physics.py:96
 msgid "Train fell off the screen, press R to try again!"
 msgstr "Tren cayo.  Pulsas R para trate otra vez."
 
-#: physics.py:94
+#: physics.py:98
 msgid "Level completed, well done!!  Press T to send another train."
 msgstr "Ganas juego, muy bien!! Pulsas T para otro tren."
 
-#: physics.py:96
+#: physics.py:100
 msgid "Press the Spacebar to start/pause."
 msgstr "Pulsas la barra espaciadora para comenza o descansa."
 
@@ -46,23 +48,22 @@ msgstr "Pulsas la barra espaciadora para comenza o descansa."
 msgid "Circle"
 msgstr "Circulo"
 
-#: tools.py:114
+#: tools.py:117
 msgid "Girder"
 msgstr "Viga"
 
-#: tools.py:175
+#: tools.py:186
 msgid "Grab"
 msgstr "Agarra"
 
-#: tools.py:205
+#: tools.py:217
 msgid "Destroy"
 msgstr "Borra"
 
-#: tools.py:244
+#: tools.py:257
 msgid "Bridge Joint"
 msgstr "Juntura de Puente"
 
-#: olpcgames/canvas.py:151
 #, python-format
-msgid "%s Source"
-msgstr "%s Fuente"
+#~ msgid "%s Source"
+#~ msgstr "%s Fuente"
