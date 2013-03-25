@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-14 00:29-0400\n"
+"POT-Creation-Date: 2012-10-24 00:31-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,29 +16,31 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: activity/activity.info:2
+#. TRANS: "name" option from activity.info file
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
 msgid "Bridge"
-msgstr ""
-
-#: physics.py:83
-#, python-format
-msgid "Total Cost: %d"
 msgstr ""
 
 #: physics.py:87
 #, python-format
+msgid "Total Cost: %d"
+msgstr ""
+
+#: physics.py:91
+#, python-format
 msgid "Stress: %d%%"
 msgstr ""
 
-#: physics.py:92
+#: physics.py:96
 msgid "Train fell off the screen, press R to try again!"
 msgstr ""
 
-#: physics.py:94
+#: physics.py:98
 msgid "Level completed, well done!!  Press T to send another train."
 msgstr ""
 
-#: physics.py:96
+#: physics.py:100
 msgid "Press the Spacebar to start/pause."
 msgstr ""
 
@@ -46,23 +48,18 @@ msgstr ""
 msgid "Circle"
 msgstr ""
 
-#: tools.py:114
+#: tools.py:117
 msgid "Girder"
 msgstr ""
 
-#: tools.py:175
+#: tools.py:186
 msgid "Grab"
 msgstr ""
 
-#: tools.py:205
+#: tools.py:217
 msgid "Destroy"
 msgstr ""
 
-#: tools.py:244
+#: tools.py:257
 msgid "Bridge Joint"
-msgstr ""
-
-#: olpcgames/canvas.py:151
-#, python-format
-msgid "%s Source"
 msgstr ""
