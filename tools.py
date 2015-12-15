@@ -26,7 +26,7 @@ class Tool(object):
     def __init__(self,gameInstance):
         self.game = gameInstance
         self.name = "Tool"
-    def handleEvents(self,event):
+    def handleEvents(self,event,bridge):
         handled = True
         # default event handling
         if event.type == QUIT:
@@ -38,7 +38,8 @@ class Tool(object):
                 self.game.bridge.create_train()
                 self.game.world.run_physics = not self.game.world.run_physics  
             elif event.key == K_r:
-                self.game.bridge.restart()
+                if bridge.train_off_screen:
+                    self.game.bridge.restart()
             elif event.key == K_t:
                 self.game.bridge.create_train(force=True)
             elif event.key == K_b:
@@ -81,9 +82,9 @@ class CircleTool(Tool):
         self.name = "Circle"
         self.pt1 = None
         self.radius = None
-    def handleEvents(self,event):
+    def handleEvents(self,event,bridge):
         #look for default events, and if none are handled then try the custom events 
-        if not super(CircleTool,self).handleEvents(event):
+        if not super(CircleTool,self).handleEvents(event,bridge):
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.pt1 = pygame.mouse.get_pos()
@@ -132,9 +133,9 @@ class GirderTool(Tool):
         
 
     
-    def handleEvents(self,event):
+    def handleEvents(self,event,bridge):
         #look for default events, and if none are handled then try the custom events 
-        if not super(GirderTool,self).handleEvents(event):
+        if not super(GirderTool,self).handleEvents(event,bridge):
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.pt1 = pygame.mouse.get_pos()                    
@@ -188,9 +189,9 @@ class GrabTool(Tool):
     def __init__(self,gameInstance):
         self.game = gameInstance
         self.name = "Grab"
-    def handleEvents(self,event):
+    def handleEvents(self,event,bridge):
         #look for default events, and if none are handled then try the custom events 
-        if not super(GrabTool,self).handleEvents(event):
+        if not super(GrabTool,self).handleEvents(event,bridge):
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     # grab the first object at the mouse pointer
@@ -220,9 +221,9 @@ class DestroyTool(Tool):
         self.game = gameInstance
         self.name = "Destroy"
         self.vertices = None
-    def handleEvents(self,event):
+    def handleEvents(self,event,bridge):
         #look for default events, and if none are handled then try the custom events 
-        if not super(DestroyTool,self).handleEvents(event):
+        if not super(DestroyTool,self).handleEvents(event,bridge):
             if pygame.mouse.get_pressed()[0]:
                 if not self.vertices: self.vertices = []
                 self.vertices.append(pygame.mouse.get_pos())
@@ -230,12 +231,9 @@ class DestroyTool(Tool):
                     self.vertices.pop(0)
                 tokill = self.game.world.get_bodies_at_pos(pygame.mouse.get_pos())
                 if tokill:
-                    jointnode = tokill[0].GetJointList()
-                    if jointnode:
-                        joint = jointnode.joint
-                        self.game.bridge.joint_deleted(joint)
-                        while joint.GetNext():
-                            joint = joint.GetNext()
+                    joints = tokill[0].joints
+                    if len(joints) > 0:
+                        for joint in joints:
                             self.game.bridge.joint_deleted(joint)
                     self.game.world.world.DestroyBody(tokill[0])
                     self.game.bridge.box_deleted()
@@ -260,9 +258,9 @@ class BridgeJointTool(Tool):
         self.game = gameInstance
         self.name = "Bridge Joint"
         self.jb1 = self.jb2 = self.jb1pos = self.jb2pos = None
-    def handleEvents(self,event):
+    def handleEvents(self,event,bridge):
         #look for default events, and if none are handled then try the custom events 
-        if super(BridgeJointTool,self).handleEvents(event):
+        if super(BridgeJointTool,self).handleEvents(event,bridge):
             return
         if event.type != MOUSEBUTTONUP or event.button != 1:
             return
@@ -274,20 +272,20 @@ class BridgeJointTool(Tool):
             
         jointDef = box2d.b2RevoluteJointDef()
         if len(bodies) == 1:
-            if not bodies[0].IsStatic():
+            if not bodies[0].type == box2d.b2_staticBody:
                 if event.pos[1] > 550 and (event.pos[0] < 350 or event.pos[0] > 850):
-                    jointDef.Initialize(self.game.world.world.GetGroundBody(), 
+                    jointDef.Initialize(self.game.world.world.groundBody, 
                                                bodies[0], self.to_b2vec(event.pos))
                 else:
                     return
             else:
                 return                   
         elif len(bodies) == 2: 
-            if bodies[0].IsStatic():
-                jointDef.Initialize(self.game.world.world.GetGroundBody(), 
+            if bodies[0].type == box2d.b2_staticBody:
+                jointDef.Initialize(self.game.world.world.groundBody, 
                                           bodies[1], self.to_b2vec(event.pos))
-            elif bodies[1].IsStatic():
-                jointDef.Initialize(self.game.world.world.GetGroundBody(), 
+            elif bodies[1].type == box2d.b2_staticBody:
+                jointDef.Initialize(self.game.world.world.groundBody, 
                                           bodies[0], self.to_b2vec(event.pos))
             else:
                 jointDef.Initialize(bodies[0], bodies[1], self.to_b2vec(event.pos))

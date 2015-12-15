@@ -29,7 +29,7 @@ class Bridge:
         pygame.draw.rect(self.screen, (100, 180, 255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
             dynamic=False)
-        rect = pygame.Rect((1600, 825), (-750, -250))
+        rect = pygame.Rect((1700, 825), (-850, -250))
         rect.normalize()
         pygame.draw.rect(self.screen, (100, 180, 255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
@@ -58,11 +58,11 @@ class Bridge:
 
     def for_each_frame(self):
         self.stress = 0
-        joint = self.world.world.GetJointList()
+        joint = self.world.world.joints
         for j in joint:
             try:
-                if j.IsMotorEnabled() == False:
-                    force = j.GetReactionForce(30).Length()
+                if j.motorEnabled == False:
+                    force = j.GetReactionForce(30).length
                     self.stress += force
 
                     if force > 500:
@@ -70,7 +70,7 @@ class Bridge:
                         self.world.world.DestroyJoint(j)
                         self.capacity -= 500
                     else:
-                        vec = j.GetAnchor1()
+                        vec = j.anchorA
                         coord = int(self.world.meter_to_screen(vec.x)), \
                                 int(self.screen.get_height() -
                                             self.world.meter_to_screen(vec.y))
@@ -79,8 +79,8 @@ class Bridge:
                                                                      coord, 6)
             except AttributeError:
                 pass
-        pos = self.first_train.GetPosition()
-        if pos.x > 14.0:
+        pos = self.first_train.position
+        if pos.x < 0.0:
             if not self.level_completed:
                 self.level_completed = True
                 self.sounds['wooo'].play()
@@ -90,7 +90,7 @@ class Bridge:
                 print "TRAIN FELL OFF!", pos.x
                 self.train_off_screen = True
 
-    def create_train(self, worldpoint = (-100, 490),
+    def create_train(self, worldpoint = (1600, 490),
                            train = (100, 50),
                            wheelrad = 20,
                            cars = 3,

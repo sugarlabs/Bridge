@@ -21,7 +21,7 @@ import pygame
 from pygame.locals import *
 from pygame.color import *
 
-import elements
+from myelements import elements
 import tools
 from bridge import Bridge
 from helpers import *
@@ -70,7 +70,7 @@ class PhysicsGame:
                 gtk.main_iteration()
                 
             for event in pygame.event.get():
-                self.currentTool.handleEvents(event)
+                self.currentTool.handleEvents(event, self.bridge)
             # Clear Display
             self.screen.fill((80, 160, 240)) #255 for white
 
