@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-24 00:31-0400\n"
-"PO-Revision-Date: 2016-04-28 10:35+0000\n"
-"Last-Translator: Robert <rbuj@fedoraproject.org>\n"
+"PO-Revision-Date: 2016-12-21 21:01+0000\n"
+"Last-Translator: htindon <helene.tindon@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ca\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1461839753.000000\n"
+"X-POOTLE-MTIME: 1482354095.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #. TRANS: "summary" option from activity.info file
@@ -28,24 +28,24 @@ msgstr "Pont"
 #: physics.py:87
 #, python-format
 msgid "Total Cost: %d"
-msgstr "Cost total: %d"
+msgstr "Coût total: %d"
 
 #: physics.py:91
 #, python-format
 msgid "Stress: %d%%"
-msgstr "Estrès: %d%%"
+msgstr "Stress: %d%%"
 
 #: physics.py:96
 msgid "Train fell off the screen, press R to try again!"
-msgstr "El tren ha sortit de la pantalla, premeu R per tornar-ho a intentar!"
+msgstr "Le train est tombé de l'écran, appuie sur R pour essayer encore !"
 
 #: physics.py:98
 msgid "Level completed, well done!!  Press T to send another train."
-msgstr "Nivell completat, ben fet! Premeu T per a enviar-hi un altre tren."
+msgstr "Niveau terminé, bien joué ! Appuie sur T pour envoyer un autre train."
 
 #: physics.py:100
 msgid "Press the Spacebar to start/pause."
-msgstr "Premeu la barra d'espai per iniciar o fer una pausa."
+msgstr "Appuie sur la barre d'espace pour démarrer/pauser."
 
 #: tools.py:77
 msgid "Circle"
@@ -53,16 +53,16 @@ msgstr "Cercle"
 
 #: tools.py:117
 msgid "Girder"
-msgstr "Biga"
+msgstr "Poutre"
 
 #: tools.py:186
 msgid "Grab"
-msgstr "Agafa"
+msgstr "Capturer"
 
 #: tools.py:217
 msgid "Destroy"
-msgstr "Destrueix"
+msgstr "Détruire"
 
 #: tools.py:257
 msgid "Bridge Joint"
-msgstr "Junta de pont"
+msgstr "joint du pont"
