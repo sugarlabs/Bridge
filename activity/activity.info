@@ -6,3 +6,4 @@ exec = sugar-activity activity.BridgeActivity
 icon = activity-bridge
 activity_version = 3
 show_launcher = yes
+repository = https://github.com/sugarlabs/Bridge.git
