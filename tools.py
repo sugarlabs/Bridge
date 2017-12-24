@@ -61,7 +61,7 @@ class Tool(object):
                 self.game.setTool("destroy")
         elif event.type == USEREVENT:
             if hasattr(event, "action"):
-                if self.game.toolList.has_key(event.action):
+                if event.action in self.game.toolList:
                     self.game.setTool(event.action)
         # elif event.type == MOUSEBUTTONDOWN and event.button == 1:
         # self.game._pygamecanvas.canvas.grab_focus()
@@ -113,7 +113,7 @@ class CircleTool(Tool):
 
     def draw(self):
         # draw a circle from pt1 to mouse
-        if self.pt1 != None:
+        if self.pt1 is not None:
             mouse_pos = pygame.mouse.get_pos()
             self.radius = distance(self.pt1, mouse_pos)
             if self.radius > 3:
@@ -160,7 +160,7 @@ class GirderTool(Tool):
                     self.pt1 = pygame.mouse.get_pos()
             elif event.type == MOUSEBUTTONUP:
                 if event.button == 1:
-                    if self.pt2 != None:
+                    if self.pt2 is not None:
                         self.game.world.set_color(
                             (self.red, self.green, self.blue))
                         self.red += self.colordiff
@@ -189,7 +189,7 @@ class GirderTool(Tool):
 
     def draw(self):
         # draw a box from pt1 to mouse
-        if self.pt1 != None:
+        if self.pt1 is not None:
             self.pt2 = pygame.mouse.get_pos()
             self.theta = getAngle(self.pt1, self.pt2)
             if distance2(self.pt1, self.pt2, self.min):
@@ -226,8 +226,8 @@ class GrabTool(Tool):
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     # grab the first object at the mouse pointer
-                    bodylist = self.game.world.get_bodies_at_pos(event.pos,
-                                                                 include_static=False)
+                    bodylist = self.game.world.get_bodies_at_pos(
+                        event.pos, include_static=False)
                     if bodylist and len(bodylist) > 0:
                         self.game.world.add.mouseJoint(bodylist[0], event.pos)
             elif event.type == MOUSEBUTTONUP:
@@ -303,7 +303,7 @@ class BridgeJointTool(Tool):
         # are handled then try the custom events
         if super(BridgeJointTool, self).handleEvents(event, bridge):
             return
-        if event.type != MOUSEBUTTONUP or event.button != 1:
+        if event.type is not MOUSEBUTTONUP or event.button is not 1:
             return
 
         bodies = self.game.world.get_bodies_at_pos(event.pos,
@@ -314,8 +314,8 @@ class BridgeJointTool(Tool):
         jointDef = box2d.b2RevoluteJointDef()
         if len(bodies) == 1:
             if not bodies[0].type == box2d.b2_staticBody:
-                if event.pos[1] > 550 and (event.pos[0] < 350
-                                           or event.pos[0] > 850):
+                if event.pos[1] > 550 and (
+                        event.pos[0] < 350 or event.pos[0] > 850):
                     jointDef.Initialize(self.game.world.world.groundBody,
                                         bodies[0], self.to_b2vec(event.pos))
                 else:

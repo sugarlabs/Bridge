@@ -79,7 +79,7 @@ class Bridge:
         joint = self.world.world.joints
         for j in joint:
             try:
-                if j.motorEnabled == False:
+                if not j.motorEnabled:
                     force = j.GetReactionForce(30).length
                     self.stress += force
 
