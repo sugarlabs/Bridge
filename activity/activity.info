@@ -1,9 +1,11 @@
 [Activity]
 name = Bridge
 bundle_id = org.laptop.bridge
-license = GPLv3 and GPLv3+
+license = GPLv3+
 exec = sugar-activity activity.BridgeActivity
 icon = activity-bridge
 activity_version = 3
 show_launcher = yes
 repository = https://github.com/sugarlabs/Bridge.git
+tags = 
+summary = 
