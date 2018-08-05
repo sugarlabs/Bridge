@@ -1,11 +1,11 @@
 [Activity]
 name = Bridge
 bundle_id = org.laptop.bridge
-license = GPLv3+
+license = GPLv3;GPLv3+
 exec = sugar-activity activity.BridgeActivity
 icon = activity-bridge
 activity_version = 3
 show_launcher = yes
 repository = https://github.com/sugarlabs/Bridge.git
-tags = 
-summary = 
+tags = Game;Science
+summary = Bridge is engaging and entertaining aimed at teaching the basics of mechanical engineering through building a bridge across a ravine.
