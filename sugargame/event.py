@@ -1,6 +1,6 @@
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import GObject
+from gi.repository import GLib
 from gi.repository import Gdk
 import pygame
 import pygame.event
@@ -249,9 +249,9 @@ class Translator(object):
 
     def _set_repeat(self, delay=None, interval=None):
         if delay is not None and self.__repeat[0] is None:
-            self.__tick_id = GObject.timeout_add(10, self._tick_cb)
+            self.__tick_id = GLib.timeout_add(10, self._tick_cb)
         elif delay is None and self.__repeat[0] is not None:
-            GObject.source_remove(self.__tick_id)
+            GLib.source_remove(self.__tick_id)
         self.__repeat = (delay, interval)
 
     def _get_mouse_pos(self):
