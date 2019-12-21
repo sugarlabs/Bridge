@@ -43,11 +43,13 @@ class BridgeActivity(activity.Activity):
 
         self.game = physics.PhysicsGame()
         self.build_toolbar()
-        self._pygamecanvas = sugargame.canvas.PygameCanvas(self)
+        self._pygamecanvas = sugargame.canvas.PygameCanvas(self,
+            main= self.game.run,
+            modules= [pygame.display])
+
         self.set_canvas(self._pygamecanvas)
         self._pygamecanvas.grab_focus()
-        self._pygamecanvas.run_pygame(self.game.run)
-
+        
     def build_toolbar(self):
         toolbar_box = ToolbarBox()
         self.set_toolbar_box(toolbar_box)
