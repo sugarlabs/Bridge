@@ -44,8 +44,8 @@ class BridgeActivity(activity.Activity):
         self.game = physics.PhysicsGame()
         self.build_toolbar()
         self._pygamecanvas = sugargame.canvas.PygameCanvas(self,
-            main= self.game.run,
-            modules= [pygame.display])
+            main=self.game.run,
+            modules=[pygame, pygame.display])
 
         self.set_canvas(self._pygamecanvas)
         self._pygamecanvas.grab_focus()
@@ -77,9 +77,13 @@ class BridgeActivity(activity.Activity):
 
         stop_button = StopButton(self)
         toolbar_box.toolbar.insert(stop_button, -1)
+        stop_button.connect('clicked', self._stop_cb)
         stop_button.show()
 
         self.show_all()
+
+    def _stop_cb(self, button):
+        self.game.running = True
 
     def radioClicked(self, button):
         evt = pygame.event.Event(
@@ -91,3 +95,4 @@ class BridgeActivity(activity.Activity):
 
     def write_file(self, file_path):
         pass
+

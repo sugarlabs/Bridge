@@ -33,7 +33,7 @@ class PhysicsGame:
         pass
 
     def run(self):
-        pygame.init()
+        
         self.screen = pygame.display.get_surface()
         # get everything set up
         self.clock = pygame.time.Clock()
@@ -70,6 +70,8 @@ class PhysicsGame:
                 Gtk.main_iteration()
 
             for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return
                 self.currentTool.handleEvents(event, self.bridge)
             # Clear Display
             self.screen.fill((80, 160, 240))  # 255 for white
