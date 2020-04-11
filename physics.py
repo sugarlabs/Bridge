@@ -18,13 +18,12 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 import pygame
-from pygame.locals import *
-from pygame.color import *
+import pygame.locals
+import pygame.color
 
 from myelements import elements
 import tools
 from bridge import Bridge
-from helpers import *
 from gettext import gettext as _
 
 

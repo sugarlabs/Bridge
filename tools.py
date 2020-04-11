@@ -5,8 +5,8 @@
 # ==================================================================
 import pygame
 import Box2D as box2d
-from pygame.locals import *
-from helpers import *
+import pygame.locals
+import helpers
 from inspect import getmro
 import math
 from gettext import gettext as _
@@ -36,30 +36,30 @@ class Tool(object):
     def handleEvents(self, event, bridge):
         handled = True
         # default event handling
-        if event.type == QUIT:
+        if event.type == pygame.QUIT:
             # bye bye! Hope you had fun!
             self.game.running = False
-        elif event.type == KEYDOWN:
-            if event.key == K_SPACE:
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
                 # space pauses
                 self.game.bridge.create_train()
                 self.game.world.run_physics = not self.game.world.run_physics
-            elif event.key == K_r:
+            elif event.key == pygame.K_r:
                 if bridge.train_off_screen:
                     self.game.bridge.restart()
-            elif event.key == K_t:
+            elif event.key == pygame.K_t:
                 self.game.bridge.create_train(force=True)
-            elif event.key == K_b:
+            elif event.key == pygame.K_b:
                 self.game.setTool("girder")
-            elif event.key == K_c:
+            elif event.key == pygame.K_c:
                 self.game.setTool("circle")
-            elif event.key == K_j:
+            elif event.key == pygame.K_j:
                 self.game.setTool("bridgejoint")
-            elif event.key == K_g:
+            elif event.key == pygame.K_g:
                 self.game.setTool("grab")
-            elif event.key == K_d:
+            elif event.key == pygame.K_d:
                 self.game.setTool("destroy")
-        elif event.type == USEREVENT:
+        elif event.type == pygame.USEREVENT:
             if hasattr(event, "action"):
                 if event.action in self.game.toolList:
                     self.game.setTool(event.action)
@@ -99,10 +99,10 @@ class CircleTool(Tool):
         # look for default events, and if none are
         # handled then try the custom events
         if not super(CircleTool, self).handleEvents(event, bridge):
-            if event.type == MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.pt1 = pygame.mouse.get_pos()
-            elif event.type == MOUSEBUTTONUP:
+            elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     if self.radius > 1:  # elements doesn't like tiny shapes :(
                         self.game.world.add.ball(
@@ -115,7 +115,7 @@ class CircleTool(Tool):
         # draw a circle from pt1 to mouse
         if self.pt1 is not None:
             mouse_pos = pygame.mouse.get_pos()
-            self.radius = distance(self.pt1, mouse_pos)
+            self.radius = helpers.distance(self.pt1, mouse_pos)
             if self.radius > 3:
                 thick = 3
             else:
@@ -155,10 +155,10 @@ class GirderTool(Tool):
         # look for default events, and if none are
         # handled then try the custom events
         if not super(GirderTool, self).handleEvents(event, bridge):
-            if event.type == MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     self.pt1 = pygame.mouse.get_pos()
-            elif event.type == MOUSEBUTTONUP:
+            elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == 1:
                     if self.pt2 is not None:
                         self.game.world.set_color(
@@ -171,11 +171,11 @@ class GirderTool(Tool):
                         elif self.red < 20:
                             self.colordiff *= -1
                         print self.theta, math.degrees(self.theta)
-                        self.game.world.add.rect(((self.pt1[0] +
-                                                   self.pt2[0]) / 2,
-                                                  (self.pt1[1] +
-                                                   self.pt2[1]) / 2),
-                                                 distance(
+                        self.game.world.add.rect(((self.pt1[0]
+                                                   + self.pt2[0]) / 2,
+                                                  (self.pt1[1]
+                                                   + self.pt2[1]) / 2),
+                                                 helpers.distance(
                                                      self.pt1, self.pt2) / 2,
                                                  self.thickness / 2,
                                                  angle=math.degrees(
@@ -191,7 +191,7 @@ class GirderTool(Tool):
         # draw a box from pt1 to mouse
         if self.pt1 is not None:
             self.pt2 = pygame.mouse.get_pos()
-            self.theta = getAngle(self.pt1, self.pt2)
+            self.theta = helpers.getAngle(self.pt1, self.pt2)
             if distance2(self.pt1, self.pt2, self.min):
                 # too small! force length
                 self.pt2 = (self.pt1[0] + self.min * math.cos(self.theta),
@@ -223,19 +223,19 @@ class GrabTool(Tool):
         # look for default events, and if none
         # are handled then try the custom events
         if not super(GrabTool, self).handleEvents(event, bridge):
-            if event.type == MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     # grab the first object at the mouse pointer
                     bodylist = self.game.world.get_bodies_at_pos(
                         event.pos, include_static=False)
                     if bodylist and len(bodylist) > 0:
                         self.game.world.add.mouseJoint(bodylist[0], event.pos)
-            elif event.type == MOUSEBUTTONUP:
+            elif event.type == pygame.MOUSEBUTTONUP:
                 # let it go
                 if event.button == 1:
                     self.game.world.add.remove_mouseJoint()
             # use box2D mouse motion
-            elif event.type == MOUSEMOTION and event.buttons[0]:
+            elif event.type == pygame.MOUSEMOTION and event.buttons[0]:
                 self.game.world.mouse_move(event.pos)
 
     def cancel(self):
@@ -272,7 +272,7 @@ class DestroyTool(Tool):
                             self.game.bridge.joint_deleted(joint)
                     self.game.world.world.DestroyBody(tokill[0])
                     self.game.bridge.box_deleted()
-            elif event.type == MOUSEBUTTONUP and event.button == 1:
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 self.cancel()
 
     def draw(self):
@@ -303,7 +303,7 @@ class BridgeJointTool(Tool):
         # are handled then try the custom events
         if super(BridgeJointTool, self).handleEvents(event, bridge):
             return
-        if event.type is not MOUSEBUTTONUP or event.button is not 1:
+        if event.type != pygame.MOUSEBUTTONUP or event.button != 1:
             return
 
         bodies = self.game.world.get_bodies_at_pos(event.pos,

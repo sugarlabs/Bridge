@@ -90,11 +90,11 @@ class Bridge:
                     else:
                         vec = j.anchorA
                         coord = int(self.world.meter_to_screen(vec.x)), \
-                            int(self.screen.get_height() -
-                                self.world.meter_to_screen(vec.y))
+                            int(self.screen.get_height()
+                                - self.world.meter_to_screen(vec.y))
                         pygame.draw.circle(self.screen,
-                                           (int(force / 2), 255 -
-                                            int(force / 2), 0),
+                                           (int(force / 2), 255
+                                            - int(force / 2), 0),
                                            coord, 6)
             except AttributeError:
                 pass
@@ -134,8 +134,8 @@ class Bridge:
                 self.first_train = rect
 
             self.world.set_color((0, 0, 0))
-            rearwheel = (startpoint[0] + wheelrad, startpoint[1] +
-                         train[1] - wheelrad / 2)
+            rearwheel = (startpoint[0] + wheelrad, startpoint[1]
+                         + train[1] - wheelrad / 2)
             pygame.draw.circle(self.screen, (0, 0, 0), rearwheel, wheelrad, 3)
             self.world.add.ball(rearwheel, wheelrad, dynamic=True,
                                 density=10.0, restitution=0.16,
@@ -176,14 +176,16 @@ def loadSound(name):
     # that has an empty play method. this way the program
     # will run if the mixer isn't present (sans sound)
     class NoneSound:
-        def play(self): pass
+        def play(self):
+            pass
 
-        def set_volume(self): pass
+        def set_volume(self):
+            pass
     if not pygame.mixer:
         return NoneSound()
     try:
         sound = pygame.mixer.Sound(name)
-    except:
+    except Exception:
         print "error with sound: " + name
         return NoneSound()
     return sound
