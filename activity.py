@@ -19,12 +19,13 @@ import sys
 sys.path.insert(0, "lib")
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 import pygame
 
 from sugar3.activity import activity
 from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.graphics.toolbutton import ToolButton
+from sugar3.graphics.style import GRID_CELL_SIZE
 from sugar3.activity.widgets import ActivityButton
 from sugar3.activity.widgets import StopButton
 
@@ -44,6 +45,11 @@ class BridgeActivity(activity.Activity):
         self.game = physics.PhysicsGame()
         self.build_toolbar()
         self._pygamecanvas = sugargame.canvas.PygameCanvas(self)
+
+        w = Gdk.Screen.width()
+        h = Gdk.Screen.height() - 2*GRID_CELL_SIZE
+        self._pygamecanvas.set_size_request(w, h)
+
         self.set_canvas(self._pygamecanvas)
         self._pygamecanvas.grab_focus()
         self._pygamecanvas.run_pygame(self.game.run)
