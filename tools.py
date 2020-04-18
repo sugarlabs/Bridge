@@ -170,7 +170,7 @@ class GirderTool(Tool):
                             self.colordiff *= -1
                         elif self.red < 20:
                             self.colordiff *= -1
-                        print self.theta, math.degrees(self.theta)
+                        print(self.theta, math.degrees(self.theta))
                         self.game.world.add.rect(((self.pt1[0]
                                                    + self.pt2[0]) / 2,
                                                   (self.pt1[1]
@@ -344,7 +344,7 @@ class BridgeJointTool(Tool):
 
 def getAllTools():
     this_mod = __import__(__name__)
-    all = [val for val in this_mod.__dict__.values() if isinstance(val, type)]
+    all = [val for val in list(this_mod.__dict__.values()) if isinstance(val, type)]
     allTools = []
     for a in all:
         if getmro(a).__contains__(Tool) and a != Tool:
