@@ -66,6 +66,8 @@ class PhysicsGame:
 
             while Gtk.events_pending():
                 Gtk.main_iteration()
+            if not self.running:
+                break
 
             for event in pygame.event.get():
                 self.currentTool.handleEvents(event, self.bridge)
