@@ -55,15 +55,15 @@ class Bridge:
 
     def add_cost(self, value):
         self.cost = self.cost + value
-        print "cost now", value
+        print("cost now", value)
 
     def joint_added(self, joint):
-        print "joint added!"
+        print("joint added!")
         self.add_cost(100)
         self.capacity += 500
 
     def joint_deleted(self, joint):
-        print "joint deleting!"
+        print("joint deleting!")
         self.add_cost(-100)
         self.capacity -= 500
 
@@ -83,7 +83,7 @@ class Bridge:
                     self.stress += force
 
                     if force > 500:
-                        print "destroy joint!"
+                        print("destroy joint!")
                         self.world.world.DestroyJoint(j)
                         self.capacity -= 500
                     else:
@@ -105,7 +105,7 @@ class Bridge:
         elif pos.y < 0.0:
             if not self.train_off_screen:
                 self.sounds['death'].play()
-                print "TRAIN FELL OFF!", pos.x
+                print("TRAIN FELL OFF!", pos.x)
                 self.train_off_screen = True
 
     def create_train(self, worldpoint=(int(1600*0.625), int(490*0.733)),
@@ -184,6 +184,6 @@ def loadSound(name):
     try:
         sound = pygame.mixer.Sound(name)
     except Exception:
-        print "error with sound: " + name
+        print("error with sound: " + name)
         return NoneSound()
     return sound
