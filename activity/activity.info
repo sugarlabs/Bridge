@@ -2,7 +2,7 @@
 name = Bridge
 bundle_id = org.laptop.bridge
 license = GPLv3;GPLv3+
-exec = sugar-activity activity.BridgeActivity
+exec = sugar-activity3 activity.BridgeActivity
 icon = activity-bridge
 activity_version = 3
 show_launcher = yes
