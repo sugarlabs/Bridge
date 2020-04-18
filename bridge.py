@@ -17,7 +17,6 @@
 
 import pygame
 
-
 class Bridge:
     def __init__(self, game):
         self.game = game
@@ -42,12 +41,12 @@ class Bridge:
 
     def create_world(self):
         self.world.set_color((100, 150, 50))
-        rect = pygame.Rect((-400, 825), (750, -250))
+        rect = pygame.Rect((-400 * 0.625, 825 * 0.733), (750 * 0.625, -250 * 0.733))
         rect.normalize()
         pygame.draw.rect(self.screen, (100, 180, 255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
                             dynamic=False)
-        rect = pygame.Rect((1700, 825), (-850, -250))
+        rect = pygame.Rect((1750 * 0.625 , 825 * 0.733), (-850* 0.625, -250* 0.733))
         rect.normalize()
         pygame.draw.rect(self.screen, (100, 180, 255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
@@ -109,10 +108,9 @@ class Bridge:
                 print "TRAIN FELL OFF!", pos.x
                 self.train_off_screen = True
 
-    def create_train(self, worldpoint=(1600, 490),
-                     train=(100, 50),
-                     wheelrad=20,
-                     cars=3,
+    def create_train(self, worldpoint=(int(1600*0.625), int(490*0.733)),
+                     train=(int(100*0.625), int(50*0.733)),
+                     wheelrad=int(20*0.733), cars=3,
                      force=False):
         if not force and self.train_was_created:
             return
