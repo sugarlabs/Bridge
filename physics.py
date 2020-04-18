@@ -62,7 +62,6 @@ class PhysicsGame:
         t = pygame.time.get_ticks()
         while self.running:
             if (pygame.time.get_ticks() - t) > 1500:
-                # bridge.create_train(self)
                 t = pygame.time.get_ticks()
 
             while Gtk.events_pending():
