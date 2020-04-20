@@ -33,7 +33,7 @@ from math import degrees
 from math import acos
 
 from locals import *
-from elements import box2d
+import Box2D as box2d
 
 def calc_center(points):
     """ Calculate the center of a polygon

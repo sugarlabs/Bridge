@@ -25,7 +25,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.              
 """
 from locals import *
-from elements import box2d
+import Box2D as box2d
 
 class CallbackHandler:
     # List of contact callbacks and shapes to start them - sorted by type for quicker access  
