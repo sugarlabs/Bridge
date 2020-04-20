@@ -24,7 +24,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from locals import *
+from .locals import *
 import Box2D as box2d
 
 # Imports
@@ -32,7 +32,7 @@ from math import pi
 from math import sqrt
 from math import asin
 
-import tools_poly
+from . import tools_poly
 
 
 class Add:
@@ -454,7 +454,7 @@ class Add:
             try:
                 polyDef.checkValues()
             except ValueError:
-                print "concavePoly: Created an invalid polygon!"
+                print("concavePoly: Created an invalid polygon!")
                 return None
 
             body.CreateFixture(polyDef)
@@ -500,15 +500,15 @@ class Add:
 
         if tools_poly.is_line(vertices):
             # Lines shall be drawn by self.concavePoly(...)
-            print "is line"
+            print("is line")
             is_convex = False
 
         if is_convex:
-            print "convex"
+            print("convex")
             return self.convexPoly(
                 vertices, dynamic, density, restitution, friction), vertices
         else:
-            print "concave"
+            print("concave")
             return self.concavePoly(
                 vertices, dynamic, density, restitution, friction), vertices
 
@@ -538,7 +538,8 @@ class Add:
             tolerance += 1
             v_new = tools_poly.reduce_poly(vertices, tolerance)
 
-        print "convexPoly: Polygon reduced from %i to %i vertices | tolerance: %i" % (len(vertices), len(v_new), tolerance)
+        print("convexPoly: Polygon reduced from %i to %i vertices | tolerance: %i" % (
+            len(vertices), len(v_new), tolerance))
         vertices = v_new
 
         # So poly should be alright now
@@ -566,18 +567,18 @@ class Add:
         return pt
 
     # Alex Levenson's added joint methods:
-    def distanceJoint(self,b1,b2,p1,p2):
+    def distanceJoint(self, b1, b2, p1, p2):
         # Distance Joint
-        p1 = self.to_b2vec(p1)            
-        p2 = self.to_b2vec(p2)                      
-  
+        p1 = self.to_b2vec(p1)
+        p2 = self.to_b2vec(p2)
+
         jointDef = box2d.b2DistanceJointDef()
         jointDef.Initialize(b1, b2, p1, p2)
-        jointDef.collideConnected = True            
+        jointDef.collideConnected = True
         self.parent.world.CreateJoint(jointDef)
 
     def joint(self, *args):
-        print "* Add Joint:", args
+        print("* Add Joint:", args)
 
         if len(args) == 5:
             # Tracking Joint
@@ -643,7 +644,7 @@ class Add:
 
         self.parent.world.CreateJoint(jointDef)
 
-    def jointMotor(self,b1,b2,p1,torque=900,speed=-10):
+    def jointMotor(self, b1, b2, p1, torque=900, speed=-10):
         p1 = self.to_b2vec(p1)
         jointDef = box2d.b2RevoluteJointDef()
         jointDef.Initialize(b1, b2, p1)
