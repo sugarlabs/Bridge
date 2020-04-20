@@ -29,9 +29,9 @@ from math import cos
 from math import sin
 from math import sqrt
 
-import tools
+from . import tools
 
-# Functions of a rendering class 
+# Functions of a rendering class
 # mandatory:
 #    __init__
 #    start_drawing
@@ -47,32 +47,33 @@ import tools
 # for cairo:
 #    draw_text
 # for opengl:
-#    
+#
 
 # IMPORTANT
 # The drawing functions get the coordinates in their screen coordinate system
 # no need for translations anymore :)
+
 
 class draw_pygame(object):
     """ This class handles the drawing with pygame, which is really
         simple since we only need draw_ellipse and draw_polygon.
     """
     lineWidth = 0
-    
+
     def __init__(self):
         """ Load pygame.draw and pygame.Rect, and reference it for
             the drawing methods
-            
+
             Parameters:
               surface .... pygame surface (default: None)
               lineWidth .. 
 
             Return: Class draw_pygame()
         """
-        print "* Pygame selected as renderer"        
+        print("* Pygame selected as renderer")
         from pygame import draw
         from pygame import Rect
-        
+
         self.draw = draw
         self.Rect = Rect
 
@@ -93,43 +94,43 @@ class draw_pygame(object):
 
     def start_drawing(self):
         pass
-        
+
     def after_drawing(self):
         pass
 
     def draw_circle(self, clr, pt, radius, angle):
         """ Draw a circle
-        
+
             Parameters:
               pt ........ (x, y)
               clr ....... color in rgb ((r), (g), (b))
               radius .... circle radius 
               angle ..... rotation in radians
-              
+
             Return: -
         """
         x, y = pt
-        
+
         x1 = x - radius
         y1 = y - radius
-        
-        rect = self.Rect( [x1, y1, 2*radius, 2*radius] )
+
+        rect = self.Rect([x1, y1, 2 * radius, 2 * radius])
         self.draw.ellipse(self.surface, clr, rect, self.lineWidth)
-                        
+
         # draw the orientation vector
         if radius > 10:
             rx = cos(angle) * radius
             ry = -sin(angle) * radius
-            
-            self.draw.line(self.surface, (255,255,255), pt, (x+rx, y+ry))
+
+            self.draw.line(self.surface, (255, 255, 255), pt, (x + rx, y + ry))
 
     def draw_polygon(self, clr, points):
         """ Draw a polygon
-        
+
             Parameters:
               clr ....... color in rgb ((r), (g), (b))
               points .... polygon points in normal (x,y) positions
-              
+
             Return: -
         """
         self.draw.polygon(self.surface, clr, points, self.lineWidth)
@@ -137,54 +138,55 @@ class draw_pygame(object):
 
     def draw_lines(self, clr, closed, points, width=None):
         """ Draw a polygon
-        
+
             Parameters:
               clr ....... color in rgb ((r), (g), (b))
               points .... polygon points in normal (x,y) positions
-              
+
             Return: -
         """
         if width == None:
             lw = self.lineWidth
-        else: 
+        else:
             lw = width
-            
+
         self.draw.lines(self.surface, clr, closed, points, lw)
+
 
 class draw_cairo(object):
     """ This class handles the drawing with cairo, which is really
         simple since we only need draw_ellipse and draw_polygon.
     """
     window = None
-    da     = None
+    da = None
     circle_surface = None
-    box_surface    = None
+    box_surface = None
 
     def __init__(self, drawMethod="filled"):
         """ Load cairo.draw and cairo.Rect, and reference it for
             the drawing methods
-            
+
             Return: Class draw_cairo()
         """
-        print "* Cairo selected as renderer"
+        print("* Cairo selected as renderer")
         import cairo
         self.cairo = cairo
         self.set_drawing_method(drawMethod)
         #self.draw_box = self.draw_box_image
 
-    def set_lineWidth(self, lw): # unused
-        self.lineWidth = lw 
+    def set_lineWidth(self, lw):  # unused
+        self.lineWidth = lw
 
     def set_drawing_area(self, da):
         """ Set the area for Cairo to draw to
-        
+
             da ...... drawing area (gtk.DrawingArea)
 
             Return: -
         """
         self.da = da
         self.window = da.window
-        print "* Cairo renderer drawing area set"
+        print("* Cairo renderer drawing area set")
 
     def set_drawing_method(self, type):
         """ type = filled, image """
@@ -193,20 +195,21 @@ class draw_cairo(object):
 
     def start_drawing(self):
         self.width, self.height = self.window.get_size()
-        self.imagesurface = self.cairo.ImageSurface(self.cairo.FORMAT_ARGB32, self.width, self.height);
+        self.imagesurface = self.cairo.ImageSurface(
+            self.cairo.FORMAT_ARGB32, self.width, self.height)
         self.ctx = ctx = self.cairo.Context(self.imagesurface)
 
-        ctx.set_source_rgb(1, 1, 1) # background color
+        ctx.set_source_rgb(1, 1, 1)  # background color
         ctx.paint()
 
         ctx.move_to(0, 0)
-        ctx.set_source_rgb(0, 0, 0) # defaults for the rest of the drawing
+        ctx.set_source_rgb(0, 0, 0)  # defaults for the rest of the drawing
         ctx.set_line_width(1)
         ctx.set_tolerance(0.1)
 
         ctx.set_line_join(self.cairo.LINE_CAP_BUTT)
         # LINE_CAP_BUTT, LINE_CAP_ROUND, LINE_CAP_SQUARE, LINE_JOIN_BEVEL, LINE_JOIN_MITER, LINE_JOIN_ROUND
-        
+
         #ctx.set_dash([20/4.0, 20/4.0], 0)
 
     def after_drawing(self):
@@ -228,7 +231,7 @@ class draw_cairo(object):
         clr = tools.rgb2floats(clr)
         self.ctx.set_source_rgb(*clr)
         self.ctx.move_to(x, y)
-        self.ctx.arc(x, y, radius, 0, 2*3.1415)
+        self.ctx.arc(x, y, radius, 0, 2 * 3.1415)
         self.ctx.fill()
 
     def draw_circle():
@@ -244,30 +247,32 @@ class draw_cairo(object):
         image_r = sf.get_width() / 2
         scale = float(radius) / image_r
         self.ctx.scale(scale, scale)
-        self.ctx.translate(-0.5*sf.get_width(), -0.5*sf.get_height())
+        self.ctx.translate(-0.5 * sf.get_width(), -0.5 * sf.get_height())
         self.ctx.set_source_surface(sf)
         self.ctx.paint()
         self.ctx.restore()
 
-    def draw_image(self, source, pt, scale=1.0, rot=0, sourcepos=(0,0)):
+    def draw_image(self, source, pt, scale=1.0, rot=0, sourcepos=(0, 0)):
         self.ctx.save()
         self.ctx.rotate(rot)
         self.ctx.scale(scale, scale)
         destx, desty = self.ctx.device_to_user_distance(pt[0], pt[1])
-        self.ctx.set_source_surface(source, destx-sourcepos[0], desty-sourcepos[1])
-        self.ctx.rectangle(destx, desty, source.get_width(), source.get_height())
+        self.ctx.set_source_surface(
+            source, destx - sourcepos[0], desty - sourcepos[1])
+        self.ctx.rectangle(destx, desty, source.get_width(),
+                           source.get_height())
         self.ctx.fill()
         self.ctx.restore()
-                 
+
     def draw_polygon(self, clr, points):
         """ Draw a polygon
-        
+
             Parameters:
               clr ....... color in rgb ((r), (g), (b))
               points .... polygon points in normal (x,y) positions
-              
+
             Return: -
-        """        
+        """
         clr = tools.rgb2floats(clr)
         self.ctx.set_source_rgb(clr[0], clr[1], clr[2])
 
@@ -275,28 +280,30 @@ class draw_cairo(object):
         self.ctx.move_to(pt[0], pt[1])
         for pt in points[1:]:
             self.ctx.line_to(pt[0], pt[1])
-            
+
         self.ctx.fill()
-   
-    def draw_text(self, text, center, clr=(0,0,0), size=12, fontname="Georgia"):
+
+    def draw_text(self, text, center, clr=(0, 0, 0), size=12, fontname="Georgia"):
         clr = tools.rgb2floats(clr)
         self.ctx.set_source_rgb(clr[0], clr[1], clr[2])
 
-        self.ctx.select_font_face(fontname, self.cairo.FONT_SLANT_NORMAL, self.cairo.FONT_WEIGHT_NORMAL)
+        self.ctx.select_font_face(
+            fontname, self.cairo.FONT_SLANT_NORMAL, self.cairo.FONT_WEIGHT_NORMAL)
         self.ctx.set_font_size(size)
         x_bearing, y_bearing, width, height = self.ctx.text_extents(text)[:4]
-        self.ctx.move_to(center[0] + 0.5 - width / 2 - x_bearing, center[1] + 0.5 - height / 2 - y_bearing)
+        self.ctx.move_to(center[0] + 0.5 - width / 2 - x_bearing,
+                         center[1] + 0.5 - height / 2 - y_bearing)
         self.ctx.show_text(text)
 
     def draw_lines(self, clr, closed, points):
         """ Draw a polygon
-        
+
             Parameters:
               clr ....... color in rgb ((r), (g), (b))
               closed .... whether or not to close the lines (as a polygon)
               points .... polygon points in normal (x,y) positions
             Return: -
-        """        
+        """
         clr = tools.rgb2floats(clr)
         self.ctx.set_source_rgb(clr[0], clr[1], clr[2])
 
@@ -311,66 +318,69 @@ class draw_cairo(object):
 
         self.ctx.stroke()
 
+
 class draw_opengl_pyglet(object):
     """ This class handles the drawing with pyglet
     """
     lineWidth = 0
+
     def __init__(self):
         """ Load pyglet.gl, and reference it for the drawing methods
-            
+
             Parameters:
               surface .... not used with pyglet
               lineWidth .. 
         """
-        print "* OpenGL_Pyglet selected as renderer"
+        print("* OpenGL_Pyglet selected as renderer")
 
         from pyglet import gl
         self.gl = gl
 
     def set_lineWidth(self, lw):
         self.lineWidth = lw
-    
+
     def draw_circle(self, clr, pt, radius, a=0):
         clr = tools.rgb2floats(clr)
-    	self.gl.glColor3f(clr[0], clr[1], clr[2])
+        self.gl.glColor3f(clr[0], clr[1], clr[2])
 
         x, y = pt
-    	segs = 15
-    	coef = 2.0*pi/segs;
-    	
-    	self.gl.glBegin(self.gl.GL_LINE_LOOP)
-    	for n in range(segs):
-    		rads = n*coef
-    		self.gl.glVertex2f(radius*cos(rads + a) + x, radius*sin(rads + a) + y)
-    	self.gl.glVertex2f(x,y)
-    	self.gl.glEnd()
+        segs = 15
+        coef = 2.0 * pi / segs
+
+        self.gl.glBegin(self.gl.GL_LINE_LOOP)
+        for n in range(segs):
+            rads = n * coef
+            self.gl.glVertex2f(radius * cos(rads + a) + x,
+                               radius * sin(rads + a) + y)
+        self.gl.glVertex2f(x, y)
+        self.gl.glEnd()
 
     def draw_polygon(self, clr, points):
         clr = tools.rgb2floats(clr)
-    	self.gl.glColor3f(clr[0], clr[1], clr[2])
-    	
+        self.gl.glColor3f(clr[0], clr[1], clr[2])
+
         self.gl.glBegin(self.gl.GL_LINES)
 
         p1 = points[0]
         for p in points[1:]:
             x1, y1 = p1
             x2, y2 = p1 = p
-            
+
             self.gl.glVertex2f(x1, y1)
             self.gl.glVertex2f(x2, y2)
 
         x1, y1 = points[0]
-        
+
         self.gl.glVertex2f(x2, y2)
         self.gl.glVertex2f(x1, y1)
 
         self.gl.glEnd()
-                
+
     def draw_lines(self, clr, closed, points):
         pass
 
     def start_drawing(self):
         pass
-        
+
     def after_drawing(self):
         pass
