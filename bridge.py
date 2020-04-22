@@ -33,6 +33,7 @@ class Bridge:
         self.first_train = None
         self.train_off_screen = False
         self.train_was_created = False
+        self.train_exit = False
         self.level_completed = False
         self.sounds = {"wooo": loadSound("sounds/wooo.wav"),
                        "death": loadSound("sounds/death.wav"),
@@ -41,6 +42,7 @@ class Bridge:
     def restart(self):
         self.world.run_physics = False
         self.train_off_screen = False
+        self.train_exit = False
         self.level_completed = False
         self.train_was_created = False
 
@@ -107,6 +109,7 @@ class Bridge:
                 pass
         pos = self.first_train.position
         if pos.x < 0.0:
+            self.train_exit = True
             if not self.level_completed:
                 self.level_completed = True
                 self.sounds['wooo'].play()
@@ -121,6 +124,7 @@ class Bridge:
                      train=(int(100 * SCALE_X), int(50 * SCALE_Y)),
                      wheelrad=int(20 * SCALE_X), cars=3,
                      force=False):
+        self.train_exit = False
         if not force and self.train_was_created:
             return
         self.sounds['startup'].play()
