@@ -45,8 +45,7 @@ class BridgeActivity(Activity):
         self.game = physics.PhysicsGame()
         self.build_toolbar()
         self._pygamecanvas = sugargame.canvas.PygameCanvas(self,
-            main=self.game.run,
-            modules=[pygame.display])
+            main=self.game.run, modules=[pygame.display])
 
         w = Gdk.Screen.width()
         h = Gdk.Screen.height() - 2*GRID_CELL_SIZE
@@ -57,9 +56,7 @@ class BridgeActivity(Activity):
 
     def build_toolbar(self):
         toolbar_box = ToolbarBox()
-        self.set_toolbar_box(toolbar_box)
-        toolbar_box.show()
-
+        
         activity_button = ActivityButton(self)
         toolbar_box.toolbar.insert(activity_button, 0)
         activity_button.show()
@@ -84,7 +81,8 @@ class BridgeActivity(Activity):
         toolbar_box.toolbar.insert(stop_button, -1)
         stop_button.show()
 
-        self.show_all()
+        self.set_toolbar_box(toolbar_box)
+        toolbar_box.show_all()
 
     def radioClicked(self, button):
         evt = pygame.event.Event(

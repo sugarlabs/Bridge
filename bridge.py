@@ -133,14 +133,14 @@ class Bridge:
 
             self.world.set_color((0, 0, 0))
             rearwheel = (startpoint[0] + wheelrad, startpoint[1]
-                         + train[1] - wheelrad / 2)
+                         + train[1] - wheelrad // 2)
             pygame.draw.circle(self.screen, (0, 0, 0), rearwheel, wheelrad, 3)
             self.world.add.ball(rearwheel, wheelrad, dynamic=True,
                                 density=10.0, restitution=0.16,
                                 friction=0.5)
 
             frontwheel = (startpoint[0] + train[0] - wheelrad,
-                          startpoint[1] + train[1] - wheelrad / 2)
+                          startpoint[1] + train[1] - wheelrad // 2)
             pygame.draw.circle(self.screen, (0, 0, 0), frontwheel, wheelrad, 3)
             self.world.add.ball(frontwheel, wheelrad, dynamic=True,
                                 density=10.0, restitution=0.16,
