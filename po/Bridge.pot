@@ -8,18 +8,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-24 00:31-0400\n"
+"POT-Creation-Date: 2020-04-23 01:34+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. TRANS: "name" option from activity.info file
-#. TRANS: "summary" option from activity.info file
-#. TRANS: "description" option from activity.info file
+#: activity/activity.info:2
 msgid "Bridge"
+msgstr ""
+
+#: activity/activity.info:3
+msgid ""
+"Bridge is engaging and entertaining aimed at teaching the basics of "
+"mechanical engineering through building a bridge across a ravine."
 msgstr ""
 
 #: physics.py:87
@@ -27,39 +32,43 @@ msgstr ""
 msgid "Total Cost: %d"
 msgstr ""
 
-#: physics.py:91
+#: physics.py:92
 #, python-format
 msgid "Stress: %d%%"
 msgstr ""
 
-#: physics.py:96
+#: physics.py:98
 msgid "Train fell off the screen, press R to try again!"
 msgstr ""
 
-#: physics.py:98
-msgid "Level completed, well done!!  Press T to send another train."
+#: physics.py:102
+msgid "Level completed, well done!!"
 msgstr ""
 
-#: physics.py:100
+#: physics.py:106
+msgid "Press T to send another train."
+msgstr ""
+
+#: physics.py:110
 msgid "Press the Spacebar to start/pause."
 msgstr ""
 
-#: tools.py:77
+#: tools.py:92
 msgid "Circle"
 msgstr ""
 
-#: tools.py:117
+#: tools.py:141
 msgid "Girder"
 msgstr ""
 
-#: tools.py:186
+#: tools.py:219
 msgid "Grab"
 msgstr ""
 
-#: tools.py:217
+#: tools.py:253
 msgid "Destroy"
 msgstr ""
 
-#: tools.py:257
+#: tools.py:298
 msgid "Bridge Joint"
 msgstr ""
