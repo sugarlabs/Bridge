@@ -16,6 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import pygame
+import gi
+from gi.repository import Gdk
+
+SCALE_X = Gdk.Screen.width()*1.5/1920
+SCALE_Y = Gdk.Screen.height()*1.2/1080
 
 class Bridge:
     def __init__(self, game):
@@ -41,12 +46,13 @@ class Bridge:
 
     def create_world(self):
         self.world.set_color((100, 150, 50))
-        rect = pygame.Rect((-400 * 0.625, 825 * 0.733), (750 * 0.625, -250 * 0.733))
+
+        rect = pygame.Rect((-400 * SCALE_X, 825 * SCALE_Y), (750 * SCALE_X, -250 * SCALE_Y))
         rect.normalize()
         pygame.draw.rect(self.screen, (100, 180, 255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
                             dynamic=False)
-        rect = pygame.Rect((1750 * 0.625 , 825 * 0.733), (-850* 0.625, -250* 0.733))
+        rect = pygame.Rect((1750 * SCALE_X , 825 * SCALE_Y), (-850* SCALE_X, -250* SCALE_Y))
         rect.normalize()
         pygame.draw.rect(self.screen, (100, 180, 255), rect, 3)
         self.world.add.rect(rect.center, rect.width / 2, rect.height / 2,
@@ -108,9 +114,9 @@ class Bridge:
                 print("TRAIN FELL OFF!", pos.x)
                 self.train_off_screen = True
 
-    def create_train(self, worldpoint=(int(1600*0.625), int(490*0.733)),
-                     train=(int(100*0.625), int(50*0.733)),
-                     wheelrad=int(20*0.733), cars=3,
+    def create_train(self, worldpoint=(int(1600*SCALE_X), int(490*SCALE_Y)),
+                     train=(int(100*SCALE_X), int(50*SCALE_Y)),
+                     wheelrad=int(20*SCALE_X), cars=3,
                      force=False):
         if not force and self.train_was_created:
             return
