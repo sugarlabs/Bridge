@@ -344,9 +344,10 @@ class BridgeJointTool(Tool):
 
 def getAllTools():
     this_mod = __import__(__name__)
-    all = [val for val in list(this_mod.__dict__.values()) if isinstance(val, type)]
+    all_tools = [val for val in list(this_mod.__dict__.values())
+                 if isinstance(val, type)]
     allTools = []
-    for a in all:
+    for a in all_tools:
         if getmro(a).__contains__(Tool) and a != Tool:
             allTools.append(a)
     return allTools
