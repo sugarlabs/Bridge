@@ -74,14 +74,19 @@ class Bridge:
 
     def joint_deleted(self, joint):
         print("joint deleting!")
-        self.add_cost(-100)
+        if self.cost > 0:
+            self.add_cost(-100)
         self.capacity -= 500
 
     def box_added(self):
         self.add_cost(10)
 
-    def box_deleted(self):
-        self.add_cost(-10)
+    def circle_added(self):
+        self.add_cost(10)
+
+    def object_deleted(self):
+        if self.cost > 0:
+            self.add_cost(-10)
 
     def for_each_frame(self):
         self.stress = 0

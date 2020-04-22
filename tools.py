@@ -110,6 +110,7 @@ class CircleTool(Tool):
                         self.game.world.add.ball(
                             self.pt1, self.radius, dynamic=True, density=1.0,
                             restitution=0.16, friction=0.5)
+                    self.game.bridge.circle_added()
                     self.pt1 = None
                     self.radius = None
 
@@ -274,7 +275,7 @@ class DestroyTool(Tool):
                         for joint in joints:
                             self.game.bridge.joint_deleted(joint)
                     self.game.world.world.DestroyBody(tokill[0])
-                    self.game.bridge.box_deleted()
+                    self.game.bridge.object_deleted()
             elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 self.cancel()
 
