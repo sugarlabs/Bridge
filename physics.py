@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 This file is part of the 'Physics' Project
 Physics is a 2D Physics Playground for Kids (supporting Box2D2)

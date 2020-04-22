@@ -19,7 +19,9 @@ import sys
 sys.path.insert(0, "lib")
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gdk
+gi.require_version('Gdk', '3.0')
+from gi.repository import Gtk
+from gi.repository import Gdk
 import pygame
 
 from sugar3.activity.activity import Activity
@@ -45,10 +47,11 @@ class BridgeActivity(Activity):
         self.game = physics.PhysicsGame()
         self.build_toolbar()
         self._pygamecanvas = sugargame.canvas.PygameCanvas(self,
-            main=self.game.run, modules=[pygame.display])
+                             main=self.game.run,
+                             modules=[pygame.display])
 
         w = Gdk.Screen.width()
-        h = Gdk.Screen.height() - 2*GRID_CELL_SIZE
+        h = Gdk.Screen.height() - 2 * GRID_CELL_SIZE
         self._pygamecanvas.set_size_request(w, h)
 
         self.set_canvas(self._pygamecanvas)
@@ -56,7 +59,7 @@ class BridgeActivity(Activity):
 
     def build_toolbar(self):
         toolbar_box = ToolbarBox()
-        
+
         activity_button = ActivityButton(self)
         toolbar_box.toolbar.insert(activity_button, 0)
         activity_button.show()
