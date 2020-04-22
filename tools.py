@@ -222,7 +222,8 @@ class GrabTool(Tool):
     def handleEvents(self, event, bridge):
         # look for default events, and if none
         # are handled then try the custom events
-        if not super(GrabTool, self).handleEvents(event, bridge):
+        if not super(GrabTool, self).handleEvents(event, bridge) \
+           and bridge.cost > 0:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     # grab the first object at the mouse pointer
