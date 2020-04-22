@@ -99,9 +99,12 @@ class PhysicsGame:
                     True, (0, 0, 0))
             elif self.bridge.level_completed:
                 text = self.font.render(
-                    _("Level completed, well done!!"
-                      "Press T to send another train."),
+                    _("Level completed, well done!!"),
                     True, (0, 0, 0))
+                if self.bridge.train_exit:
+                    text = self.font.render(
+                        _("Press T to send another train."),
+                        True, (0, 0, 0))
             else:
                 text = self.font.render(
                     _("Press the Spacebar to start/pause."),

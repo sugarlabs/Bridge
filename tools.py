@@ -21,7 +21,7 @@ def distance2(pt1, pt2, amount):
         return True
     return ((pt1[0] - pt2[0]) ** 2 + (pt1[1] - pt2[1]) ** 2) <= (amount ** 2)
 
-# tools that can be used superlcass
+# tools that can be used superclass
 
 
 class Tool(object):
@@ -48,7 +48,9 @@ class Tool(object):
                 if bridge.train_off_screen:
                     self.game.bridge.restart()
             elif event.key == pygame.K_t:
-                self.game.bridge.create_train(force=True)
+                # t creates a new train only after one train exits
+                if self.game.bridge.train_exit:
+                    self.game.bridge.create_train(force=True)
             elif event.key == pygame.K_b:
                 self.game.setTool("girder")
             elif event.key == pygame.K_c:
