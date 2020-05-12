@@ -25,6 +25,7 @@ from gi.repository import Gdk
 import pygame
 
 from sugar3.activity.activity import Activity
+from sugar3.activity.widgets import ActivityToolbarButton
 from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.graphics.toolbutton import ToolButton
 from sugar3.graphics.style import GRID_CELL_SIZE
@@ -58,9 +59,12 @@ class BridgeActivity(Activity):
         self._pygamecanvas.grab_focus()
 
     def build_toolbar(self):
+        self.max_participants = 1
+
         toolbar_box = ToolbarBox()
 
-        activity_button = ActivityButton(self)
+        activity_button = ActivityToolbarButton(self)
+
         toolbar_box.toolbar.insert(activity_button, 0)
         activity_button.show()
 
