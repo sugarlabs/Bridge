@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """
 This file is part of the 'Elements' Project
 Elements is a 2D Physics API for Python (supporting pybox2d)
@@ -451,21 +451,21 @@ class Elements:
         worldmodel = {}
 
         save_id_index = 1
-        self.world.GetGroundBody().userData = {"saveid": 0}
+        self.world.groundBody.userData = {"saveid": 0}
 
         bodylist = []
-        for body in self.world.GetBodyList():
-            if not body == self.world.GetGroundBody():
+        for body in self.world.bodies:
+            if not body == self.world.groundBody:
                 body.userData["saveid"] = save_id_index  # set temporary data
                 save_id_index += 1
                 shapelist = body.fixtures
                 modelbody = {}
-                modelbody['position'] = body.position.tuple()
-                modelbody['dynamic'] = body.IsDynamic()
+                modelbody['position'] = body.position.tuple
+                modelbody['dynamic'] = body.type == box2d.b2_dynamicBody
                 modelbody['userData'] = body.userData
                 modelbody['angle'] = body.angle
                 modelbody['angularVelocity'] = body.angularVelocity
-                modelbody['linearVelocity'] = body.linearVelocity.tuple()
+                modelbody['linearVelocity'] = body.linearVelocity.tuple
                 if shapelist and len(shapelist) > 0:
                     shapes = []
                     for shape in shapelist:
@@ -473,15 +473,15 @@ class Elements:
                         modelshape['density'] = shape.density
                         modelshape['restitution'] = shape.restitution
                         modelshape['friction'] = shape.friction
-                        shapename = shape.__class__.__name__
+                        shapename = shape.shape.__class__.__name__
                         if shapename == "b2CircleShape":
                             modelshape['type'] = 'circle'
-                            modelshape['radius'] = shape.radius
+                            modelshape['radius'] = shape.shape.radius
                             modelshape[
-                                'localPosition'] = shape.localPosition.tuple()
+                                'localPosition'] = shape.shape.pos.tuple
                         if shapename == "b2PolygonShape":
                             modelshape['type'] = 'polygon'
-                            modelshape['vertices'] = shape.vertices
+                            modelshape['vertices'] = shape.shape.vertices
                         shapes.append(modelshape)
                     modelbody['shapes'] = shapes
 
@@ -491,22 +491,22 @@ class Elements:
 
         jointlist = []
 
-        for joint in self.world.GetJointList():
+        for joint in self.world.joints:
             modeljoint = {}
 
             if joint.__class__.__name__ == "b2RevoluteJoint":
                 modeljoint['type'] = 'revolute'
-                modeljoint['anchor'] = joint.anchorA.tuple()
-                modeljoint['enableMotor'] = joint.enableMotor
+                modeljoint['anchor'] = joint.anchorA.tuple
+                modeljoint['enableMotor'] = joint.motorEnabled
                 modeljoint['motorSpeed'] = joint.motorSpeed
-                modeljoint['maxMotorTorque'] = joint.maxMotorTorque
+                modeljoint['maxMotorTorque'] = joint.GetMaxMotorTorque()
             elif joint.__class__.__name__ == "b2DistanceJoint":
                 modeljoint['type'] = 'distance'
-                modeljoint['anchor1'] = joint.anchorA.tuple()
-                modeljoint['anchor2'] = joint.anchorB.tuple()
+                modeljoint['anchor1'] = joint.anchorA.tuple
+                modeljoint['anchor2'] = joint.anchorB.tuple
 
-            modeljoint['body1'] = joint.body1.userData['saveid']
-            modeljoint['body2'] = joint.body2.userData['saveid']
+            modeljoint['body1'] = joint.bodyA.userData['saveid']
+            modeljoint['body2'] = joint.bodyB.userData['saveid']
             modeljoint['collideConnected'] = joint.collideConnected
             modeljoint['userData'] = joint.userData
 
@@ -523,25 +523,25 @@ class Elements:
         f.write(json.dumps(worldmodel))
         f.close()
 
-        for body in self.world.GetBodyList():
+        for body in self.world.bodies:
             del body.userData['saveid']  # remove temporary data
 
     def json_load(self, path, additional_vars={}):
         import json
 
-        self.world.GetGroundBody().userData = {"saveid": 0}
+        self.world.groundBody.userData = {"saveid": 0}
 
         f = open(path, 'r')
         worldmodel = json.loads(f.read())
         f.close()
         # clean world
-        for joint in self.world.GetJointList():
+        for joint in self.world.joints:
             self.world.DestroyJoint(joint)
-        for body in self.world.GetBodyList():
-            if body != self.world.GetGroundBody():
+        for body in self.world.bodies:
+            if body != self.world.groundBody:
                 self.world.DestroyBody(body)
 
-        # load bodys
+        # load bodies
         for body in worldmodel['bodylist']:
             bodyDef = box2d.b2BodyDef()
             bodyDef.position = body['position']
@@ -554,21 +554,24 @@ class Elements:
             if 'shapes' in body:
                 for shape in body['shapes']:
                     if shape['type'] == 'polygon':
-                        polyDef = box2d.b2PolygonDef()
-                        polyDef.setVertices(shape['vertices'])
+                        polyDef = box2d.b2FixtureDef()
+                        polyShape = box2d.b2PolygonShape()
+                        polyDef.shape = polyShape
+                        polyShape.vertices = shape['vertices']
                         polyDef.density = shape['density']
                         polyDef.restitution = shape['restitution']
                         polyDef.friction = shape['friction']
-                        newBody.CreateShape(polyDef)
+                        newBody.CreateFixture(polyDef)
                     if shape['type'] == 'circle':
-                        circleDef = box2d.b2CircleDef()
-                        circleDef.radius = shape['radius']
+                        circleDef = box2d.b2FixtureDef()
+                        circleShape = box2d.b2CircleShape()
+                        circleDef.shape = circleShape
+                        circleShape.radius = shape['radius']
                         circleDef.density = shape['density']
                         circleDef.restitution = shape['restitution']
                         circleDef.friction = shape['friction']
-                        circleDef.localPosition = shape['localPosition']
-                        newBody.CreateShape(circleDef)
-                newBody.SetMassFromShapes()
+                        circleShape.pos = shape['localPosition']
+                        newBody.CreateFixture(circleDef)
 
         for joint in worldmodel['jointlist']:
             if joint['type'] == 'distance':
@@ -579,7 +582,7 @@ class Elements:
                 anch2 = joint['anchor2']
                 jointDef.collideConnected = joint['collideConnected']
                 jointDef.Initialize(body1, body2, anch1, anch2)
-                jointDef.SetUserData(joint['userData'])
+                jointDef.userData = joint['userData']
                 self.world.CreateJoint(jointDef)
             if joint['type'] == 'revolute':
                 jointDef = box2d.b2RevoluteJointDef()
@@ -587,8 +590,8 @@ class Elements:
                 body2 = self.getBodyWithSaveId(joint['body2'])
                 anchor = joint['anchor']
                 jointDef.Initialize(body1, body2, anchor)
-                jointDef.SetUserData(joint['userData'])
-                jointDef.enableMotor = joint['enableMotor']
+                jointDef.userData = joint['userData']
+                jointDef.motorEnabled = joint['enableMotor']
                 jointDef.motorSpeed = joint['motorSpeed']
                 jointDef.maxMotorTorque = joint['maxMotorTorque']
                 self.world.CreateJoint(jointDef)
@@ -596,11 +599,11 @@ class Elements:
         for (k, v) in list(worldmodel['additional_vars'].items()):
             additional_vars[k] = v
 
-        for body in self.world.GetBodyList():
+        for body in self.world.bodies:
             del body.userData['saveid']  # remove temporary data
 
     def getBodyWithSaveId(self, saveid):
-        for body in self.world.GetBodyList():
+        for body in self.world.bodies:
             if body.userData['saveid'] == saveid:
                 return body
 
