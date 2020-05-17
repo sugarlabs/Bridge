@@ -45,7 +45,7 @@ class BridgeActivity(Activity):
     def __init__(self, handle):
         Activity.__init__(self, handle)
 
-        self.game = physics.PhysicsGame()
+        self.game = physics.PhysicsGame(activity=self)
         self.build_toolbar()
         self._pygamecanvas = sugargame.canvas.PygameCanvas(self,
                              main=self.game.run,
