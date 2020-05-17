@@ -63,8 +63,8 @@ class Elements:
     element_count = 0              # Element Count
     renderer = None           # Drawing class (from drawing.py)
     # Default Input in Pixels! (can change to INPUT_METERS)
-    input = INPUT_PIXELS
-    line_width = 0              # Line Width in Pixels (0 for fill)
+    input_unit = INPUT_PIXELS
+    line_width = 0  # Line Width in Pixels (0 for fill)
     listener = None
 
     # Offset screen from world coordinate system (x, y) [meter5]
@@ -195,14 +195,11 @@ class Elements:
         """
         self.fixed_color = None
 
-    def get_color(self):
+    def _get_color(self):
         """ Get a color - either the fixed one or the next from self.colors
 
             Return: clr = ((R), (G), (B))
         """
-        if self.fixed_color is not None:
-            return self.fixed_color
-
         if self.cur_color == len(self.colors):
             self.cur_color = 0
             shuffle(self.colors)
@@ -481,43 +478,55 @@ class Elements:
 
     def json_save(self, path, additional_vars={}, serialize=False):
         import json
+
+        worldmodel = self.get_world_model(additional_vars, serialize)
+        self.world.groundBody.userData = {"saveid": 0}
+
+        f = open(path, 'w')
+        f.write(json.dumps(worldmodel))
+        f.close()
+
+        for body in self.world.bodies:
+            del body.userData['saveid']  # remove temporary data
+
+    def get_world_model(self, additional_vars={}, serialize=False):
         worldmodel = {}
         save_id_index = 1
         self.world.groundBody.userData = {"saveid": 0}
 
         bodylist = []
         for body in self.world.bodies:
-            if not body == self.world.groundBody:
-                body.userData["saveid"] = save_id_index  # set temporary data
-                save_id_index += 1
-                shapelist = body.fixtures
-                modelbody = {}
-                modelbody['position'] = body.position.tuple
-                modelbody['dynamic'] = body.type == box2d.b2_dynamicBody
-                modelbody['userData'] = body.userData
-                modelbody['angle'] = body.angle
-                modelbody['angularVelocity'] = body.angularVelocity
-                modelbody['linearVelocity'] = body.linearVelocity.tuple
-                if shapelist and len(shapelist) > 0:
-                    shapes = []
-                    for shape in shapelist:
-                        modelshape = {}
-                        modelshape['density'] = shape.density
-                        modelshape['restitution'] = shape.restitution
-                        modelshape['friction'] = shape.friction
-                        shapename = shape.shape.__class__.__name__
-                        if shapename == "b2CircleShape":
-                            modelshape['type'] = 'circle'
-                            modelshape['radius'] = shape.shape.radius
-                            modelshape[
-                                'localPosition'] = shape.shape.pos.tuple
-                        if shapename == "b2PolygonShape":
-                            modelshape['type'] = 'polygon'
-                            modelshape['vertices'] = shape.shape.vertices
-                        shapes.append(modelshape)
-                    modelbody['shapes'] = shapes
+            if body == self.world.groundBody:
+                continue
+            body.userData["saveid"] = save_id_index  # set temporary data
+            save_id_index += 1
+            shapelist = body.fixtures
+            modelbody = {}
+            modelbody['position'] = body.position.tuple
+            modelbody['dynamic'] = body.type == box2d.b2_dynamicBody
+            modelbody['userData'] = body.userData
+            modelbody['angle'] = body.angle
+            modelbody['angularVelocity'] = body.angularVelocity
+            modelbody['linearVelocity'] = body.linearVelocity.tuple
+            if shapelist and len(shapelist) > 0:
+                shapes = []
+                for shape in shapelist:
+                    modelshape = {}
+                    modelshape['density'] = shape.density
+                    modelshape['restitution'] = shape.restitution
+                    modelshape['friction'] = shape.friction
+                    shapename = shape.shape.__class__.__name__
+                    if shapename == "b2CircleShape":
+                        modelshape['type'] = 'circle'
+                        modelshape['radius'] = shape.shape.radius
+                        modelshape['localPosition'] = shape.shape.pos.tuple
+                    if shapename == "b2PolygonShape":
+                        modelshape['type'] = 'polygon'
+                        modelshape['vertices'] = shape.shape.vertices
+                    shapes.append(modelshape)
+                modelbody['shapes'] = shapes
 
-                bodylist.append(modelbody)
+            bodylist.append(modelbody)
 
         worldmodel['bodylist'] = bodylist
 
@@ -549,11 +558,26 @@ class Elements:
         controllerlist = []
         worldmodel['controllerlist'] = controllerlist
 
+        if serialize:
+            addvars = additional_vars
+            trackinfo = addvars['trackinfo']
+            backup = trackinfo
+            for key, info in backup.items():
+                if not info[3]:
+                    try:
+                        trackinfo[key][0] = info[0].userData['saveid']
+                        trackinfo[key][1] = info[1].userData['saveid']
+                    except AttributeError:
+                        pass
+                else:
+                    addvars['trackinfo'][key][0] = None
+                    addvars['trackinfo'][key][1] = None
+
+            additional_vars['trackinfo'] = trackinfo
+
         worldmodel['additional_vars'] = additional_vars
 
-        f = open(path, 'w')
-        f.write(json.dumps(worldmodel))
-        f.close()
+        return worldmodel
 
     def json_load(self, path, serialized=False):
         import json
