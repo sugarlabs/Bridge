@@ -103,7 +103,7 @@ class Add:
         else:
             x, y = pos
 
-        if self.parent.input == INPUT_PIXELS:
+        if self.parent.input_unit == INPUT_PIXELS:
             x /= self.parent.ppm
             y /= self.parent.ppm
             radius /= self.parent.ppm
@@ -183,7 +183,7 @@ class Add:
             x, y = pos
 
         # If required, translate pixel -> meters
-        if self.parent.input == INPUT_PIXELS:
+        if self.parent.input_unit == INPUT_PIXELS:
             x /= self.parent.ppm
             y /= self.parent.ppm
             width /= self.parent.ppm
@@ -226,7 +226,7 @@ class Add:
             x2, y2 = self.parent.to_world((x2, y2))
 
         # If required, translate pixel -> meters
-        if self.parent.input == INPUT_PIXELS:
+        if self.parent.input_unit == INPUT_PIXELS:
             x1 /= self.parent.ppm
             y1 /= self.parent.ppm
             x2 /= self.parent.ppm
@@ -313,7 +313,7 @@ class Add:
             x, y = pos
 
         # If required, translate pixel -> meters
-        if self.parent.input == INPUT_PIXELS:
+        if self.parent.input_unit == INPUT_PIXELS:
             # translate pixel -> meters
             x /= self.parent.ppm
             y /= self.parent.ppm
@@ -394,7 +394,7 @@ class Add:
             x, y = c
 
         # If required, translate pixel -> meters
-        if self.parent.input == INPUT_PIXELS:
+        if self.parent.input_unit == INPUT_PIXELS:
             # translate pixel -> meters
             x /= self.parent.ppm
             y /= self.parent.ppm
