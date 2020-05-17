@@ -52,25 +52,42 @@ class PhysicsGame:
 
         self.box2d_fps = 50
 
+    def set_game_fps(self, fps):
+        self.box2d_fps = fps
+
+    def write_file(self, path):
+        # Saving to journal
+        logging.debug("write_file called")
+        additional_data = {
+            'trackinfo': self.trackinfo,
+            'full_pos_list': self.full_pos_list,
+            'tracked_bodies': self.tracked_bodies
+        }
+        self.world.json_save(path, additional_data)
+
+    def read_file(self, path):
+        # Loading from journal
+        logging.debug("read_file called")
+        self.opening_queue = path
+
     def run(self):
         pygame.init()
         self.screen = pygame.display.get_surface()
-        # get everything set up
-        self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 42)  # font object
-        # self.canvas = olpcgames.ACTIVITY.canvas
-        self.joystickobject = None
         self.debug = True
+
+
+        # set up the world (instance of Elements)
+        self.world = elements.Elements(self.screen.get_size())
+        self.world.renderer.set_surface(self.screen)
+
+        self.joystickobject = None
 
         # create the name --> instance map for components
         self.toolList = {}
         for c in tools.allTools:
             self.toolList[c.name] = c(self)
         self.currentTool = self.toolList[tools.allTools[0].name]
-
-        # set up the world (instance of Elements)
-        self.world = elements.Elements(self.screen.get_size())
-        self.world.renderer.set_surface(self.screen)
 
         # set up static environment
         # self.world.add.ground()
