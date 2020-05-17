@@ -17,15 +17,16 @@ License:  GPLv3 http://gplv3.fsf.org/
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+from gi.repository import Gdk
 import pygame
 import pygame.locals
 import pygame.color
-
+import Box2D as box2d
 from myelements import elements
 import tools
 from bridge import Bridge
 from gettext import gettext as _
-
+import logging
 
 class PhysicsGame:
     def __init__(self):
