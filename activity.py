@@ -97,10 +97,10 @@ class BridgeActivity(Activity):
         pygame.event.post(evt)
 
     def read_file(self, file_path):
-        pass
+        self.game.read_file(file_path)
 
     def write_file(self, file_path):
-        pass
+        self.game.write_file(file_path)
 
     def get_preview(self):
         return self._pygamecanvas.get_preview()

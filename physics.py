@@ -13,6 +13,7 @@ Code:   http://dev.laptop.org/git?p=activities/physics
 
 License:  GPLv3 http://gplv3.fsf.org/
 """
+import os
 
 import gi
 gi.require_version('Gtk', '3.0')
@@ -44,12 +45,11 @@ class PhysicsGame:
         self.opening_queue = None
         self.running = True
         self.initialise = True
-
         self.full_pos_list = []
         self.tracked_bodies = 0
+        self.cost = 0
 
         self.trackinfo = {}
-
         self.box2d_fps = 50
 
     def set_game_fps(self, fps):
@@ -61,7 +61,8 @@ class PhysicsGame:
         additional_data = {
             'trackinfo': self.trackinfo,
             'full_pos_list': self.full_pos_list,
-            'tracked_bodies': self.tracked_bodies
+            'tracked_bodies': self.tracked_bodies,
+            'cost': self.bridge.cost
         }
         self.world.json_save(path, additional_data)
 
@@ -90,7 +91,6 @@ class PhysicsGame:
         self.currentTool = self.toolList[tools.allTools[0].name]
 
         # set up static environment
-        # self.world.add.ground()
         self.world.run_physics = False
 
         # provided there is a file to call from
@@ -109,13 +109,17 @@ class PhysicsGame:
                 if 'tracked_bodies' in self.world.additional_vars:
                     self.tracked_bodies = \
                         self.world.additional_vars['tracked_bodies']
+                if 'cost' in self.world.additional_vars:
+                    self.cost = self.world.additional_vars['cost']
 
 
         self.bridge = Bridge(self)
         self.bridge.create_world()
+        self.bridge.cost = self.cost
 
         self.running = True
         t = pygame.time.get_ticks()
+
         while self.running:
             if (pygame.time.get_ticks() - t) > 1500:
                 t = pygame.time.get_ticks()
@@ -135,6 +139,34 @@ class PhysicsGame:
             self.world.draw()
             if self.world.run_physics:
                 self.bridge.for_each_frame()
+                bodies_present = len(self.world.world.bodies)
+
+                for key, info in self.trackinfo.items():
+                    # [host_body, tracker, color, destroyed?]
+                    body = info[1]
+                    if info[3] is False: # Not destroyed
+                        trackdex = info[4]
+
+                        def to_screen(pos):
+                            px = self.world.meter_to_screen(
+                                pos[0])
+                            py = self.world.meter_to_screen(
+                                pos[1])
+                            py = self.world.renderer.get_surface() \
+                                .get_height() - py
+                            return (px, py)
+
+                        x = body.position.x
+                        y = body.position.y
+                        tupled_pos = to_screen((x,y))
+                        posx = tupled_pos[0]
+                        posy = tupled_pos[1]
+                        try:
+                            self.full_pos_list[trackdex].append(posx)
+                            self.full_pos_list[trackdex].append(posy)
+                        except IndexError:
+                            self.full_pos_list.append([posx, posy])     
+
 
             # draw output from tools
             self.currentTool.draw()
@@ -177,7 +209,6 @@ class PhysicsGame:
     def setTool(self, tool):
         self.currentTool.cancel()
         self.currentTool = self.toolList[tool]
-
 
 def main():
     toolbarheight = 75
