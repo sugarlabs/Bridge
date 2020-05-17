@@ -76,6 +76,24 @@ class PhysicsGame:
         # self.world.add.ground()
         self.world.run_physics = False
 
+        # provided there is a file to call from
+        # We need to place each element in the json
+        # to their correct position before generating
+        # The ground
+        if self.opening_queue:
+            path = self.opening_queue.encode('ascii', 'convert')
+            if os.path.exists(path):
+                self.world.json_load(path, serialized=True)
+                if 'full_pos_list' in self.world.additional_vars:
+                    self.full_pos_list = \
+                        self.world.additional_vars['full_pos_list']
+                if 'trackinfo' in self.world.additional_vars:
+                    self.trackinfo = self.world.additional_vars['trackinfo']
+                if 'tracked_bodies' in self.world.additional_vars:
+                    self.tracked_bodies = \
+                        self.world.additional_vars['tracked_bodies']
+
+
         self.bridge = Bridge(self)
         self.bridge.create_world()
 
