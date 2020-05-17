@@ -75,20 +75,21 @@ class Elements:
     # The internal coordination system is y+=up, x+=right
     # But it's possible to change the input coords to something else,
     # they will then be translated on input
-    inputAxis_x_left = False    # positive to the right by default
-    inputAxis_y_down = True     # positive to up by default
+    inputAxis_x_left = False  # positive to the right by default
+    inputAxis_y_down = True  # positive to up by default
 
     mouseJoint = None
 
-    def __init__(self, screen_size, gravity=(
-            0.0, -9.0), ppm=100.0, renderer='pygame'):
+    def __init__(self, screen_size, gravity=(0.0, -9.0), ppm=100.0,
+                 renderer='pygame'):
         """ Init the world with boundaries and gravity, and init colors.
 
             Parameters:
               screen_size .. (w, h) -- screen size in pixels [int]
               gravity ...... (x, y) in m/s^2  [float] default: (0.0, -9.0)
               ppm .......... pixels per meter [float] default: 100.0
-              renderer ..... which drawing method to use (str) default: 'pygame'
+              renderer ..... which drawing method to use (str) default:
+                             'pygame'
 
             Return: class Elements()
         """
@@ -103,6 +104,7 @@ class Elements:
         # Gravity + Bodies will sleep on outside
         self.gravity = gravity
         self.doSleep = True
+        self.PIN_MOTOR_RADIUS = 2
 
         # Create the World
         self.world = box2d.b2World(self.gravity, self.doSleep)
@@ -115,7 +117,7 @@ class Elements:
         # Set Pixels per Meter
         self.ppm = ppm
 
-    def set_inputUnit(self, input):
+    def set_inputUnit(self, input_unit):
         """ Change the input unit to either meter or pixels
 
             Parameters:
@@ -123,7 +125,7 @@ class Elements:
 
             Return: -
         """
-        self.input = input
+        self.input_unit = input_unit
 
     def set_inputAxisOrigin(self, left=True, top=False):
         """ Change the origin of the input coordinate system axis
@@ -176,7 +178,8 @@ class Elements:
         shuffle(self.colors)
 
     def set_color(self, clr):
-        """ Set a fixed color for all future Elements (until reset_color() is called)
+        """ Set a fixed color for all future Elements (until reset_color()
+            is called)
 
             Parameters:
               clr ... Hex '#123123' or RGB ((r), (g), (b))
@@ -208,6 +211,27 @@ class Elements:
         if clr[0] == "#":
             clr = tools.hex2rgb(clr)
 
+        return clr
+
+    def next_color(self):
+        """ Next color - either the fixed one of the next from self.colors
+
+            Return: clr = ((R), (G), (B))
+        """
+        if self.fixed_color is not None:
+            return self.fixed_color
+        return self._get_color()
+
+    def get_color(self):
+        """ Get a color - either the fixed one or the next from self.colors
+
+            Return: clr = ((R), (G), (B))
+        """
+        if self.fixed_color is not None:
+            return self.fixed_color
+
+        clr = self._get_color()
+
         self.cur_color += 1
         return clr
 
@@ -216,8 +240,10 @@ class Elements:
 
             Parameters:
               fps ............. fps with which the physics engine shall work
-              vel_iterations .. velocity substeps per step for smoother simulation
-              pos_iterations .. position substeps per step for smoother simulation
+              vel_iterations .. velocity substeps per step for smoother
+                                simulation
+              pos_iterations .. position substeps per step for smoother
+                                simulation
 
             Return: -
         """
@@ -225,8 +251,8 @@ class Elements:
             self.world.Step(1.0 / fps, vel_iterations, pos_iterations)
 
     def translate_coord(self, point):
-        """ Flips the coordinates in another coordinate system orientation, if necessary
-            (screen <> world coordinate system)
+        """ Flips the coordinates in another coordinate system orientation,
+            if necessary (screen <> world coordinate system)
         """
         x, y = point
 
@@ -239,8 +265,8 @@ class Elements:
         return (x, y)
 
     def translate_coords(self, pointlist):
-        """ Flips the coordinates in another coordinate system orientation, if necessary
-            (screen <> world coordinate system)
+        """Flips the coordinates in another coordinate system orientation, if
+            necessary (screen <> world coordinate system)
         """
         p_out = []
         for p in pointlist:
@@ -248,10 +274,13 @@ class Elements:
         return p_out
 
     def to_world(self, pos):
-        """ Transfers a coordinate from the screen to the world coordinate system (pixels)
+        """ Transfers a coordinate from the screen to the world
+        coordinate system (pixels)
+
             - Change to the right axis orientation
             - Include the offset: screen -- world coordinate system
-            - Include the scale factor (Screen coordinate system might have a scale factor)
+            - Include the scale factor (Screen coordinate system might have
+              a scale factor)
         """
         dx, dy = self.screen_offset_pixel
 
@@ -259,11 +288,11 @@ class Elements:
         y = pos[1] / self.camera.scale_factor
 
         x, y = self.translate_coord((round(x), round(y)))
-        return (x + dx, y + dy)
+        return(x + dx, y + dy)
 
     def to_screen(self, pos):
-        """ Transfers a coordinate from the world to the screen coordinate system (pixels)
-            and by the screen offset
+        """Transfers a coordinate from the world to the screen coordinate
+            system (pixels) and by the screen offset
         """
         dx, dy = self.screen_offset_pixel
         x = pos[0] - dx
@@ -294,15 +323,15 @@ class Elements:
         self.world.QueryAABB(query_cb, AABB)
 
         bodylist = []
-        for f in query_cb.fixtures:
-            body = f.body
+        for s in query_cb.fixtures:
+            body = s.body
             if body is None:
                 continue
             if not include_static:
                 if body.type == box2d.b2_staticBody or body.mass == 0.0:
                     continue
 
-            if f.TestPoint((sx, sy)):
+            if s.TestPoint((sx, sy)):
                 bodylist.append(body)
 
         return bodylist
@@ -325,11 +354,9 @@ class Elements:
             p1 = self.camera.track_body.GetWorldCenter()
 
             # Center the Camera There, False = Don't stop the tracking
-            self.camera.center(
-                self.to_screen(
-                    (p1.x * self.ppm,
-                     p1.y * self.ppm)),
-                stopTrack=False)
+            self.camera.center(self.to_screen((p1.x * self.ppm,
+                                               p1.y * self.ppm)),
+                               stopTrack=False)
 
         # Walk through all known elements
         self.renderer.start_drawing()
@@ -341,32 +368,36 @@ class Elements:
 
             if shape:
                 userdata = body.userData
-                clr = userdata['color']
+                if 'color' in userdata:
+                    clr = userdata['color']
+                else:
+                    clr = self.colors[0]
 
-            for fixture in body.fixtures:
-                type = fixture.type
+            for shape in body.fixtures:
+                type_ = shape.type
 
-                if type == box2d.b2Shape.e_circle:
-                    position = box2d.b2Mul(xform, fixture.shape.pos)
+                if type_ == box2d.b2Shape.e_circle:
+                    position = box2d.b2Mul(xform, shape.shape.pos)
 
-                    pos = self.to_screen(
-                        (position.x * self.ppm, position.y * self.ppm))
+                    pos = self.to_screen((position.x * self.ppm,
+                                          position.y * self.ppm))
+
                     self.renderer.draw_circle(
-                        clr, pos, self.meter_to_screen(
-                            fixture.shape.radius), angle)
+                        clr, pos, self.meter_to_screen(shape.shape.radius),
+                        angle)
 
-                elif type == box2d.b2Shape.e_polygon:
+                elif type_ == box2d.b2Shape.e_polygon:
                     points = []
-                    for v in fixture.shape.vertices:
+                    for v in shape.shape.vertices:
                         pt = box2d.b2Mul(xform, v)
-                        x, y = self.to_screen(
-                            (pt.x * self.ppm, pt.y * self.ppm))
+                        x, y = self.to_screen((pt.x * self.ppm,
+                                               pt.y * self.ppm))
                         points.append([x, y])
 
                     self.renderer.draw_polygon(clr, points)
 
                 else:
-                    print("  unknown shape type:%d" % fixture.type)
+                    print("unknown shape type:%d" % shape.type)
 
         for joint in self.world.joints:
             p2 = joint.anchorA
@@ -377,6 +408,9 @@ class Elements:
 
             if p1 == p2:
                 self.renderer.draw_circle((255, 255, 255), p1, 2, 0)
+            if isinstance(joint, box2d.b2RevoluteJoint):
+                self.renderer.draw_circle((255, 255, 255), p1,
+                                          self.PIN_MOTOR_RADIUS, 0)
             else:
                 self.renderer.draw_lines((0, 0, 0), False, [p1, p2], 3)
 
@@ -384,6 +418,9 @@ class Elements:
         self.renderer.after_drawing()
 
         return True
+
+    def set_pin_motor_radius(self, radius):
+        self.PIN_MOTOR_RADIUS = radius
 
     def mouse_move(self, pos):
         pos = self.to_world(pos)
@@ -402,12 +439,8 @@ class Elements:
             additional_vars = dict((var, getattr(self, var))
                                    for var in self._pickle_vars)
 
-        save_values = [
-            self.world,
-            box2d.pickle_fix(
-                self.world,
-                additional_vars,
-                'save')]
+        save_values = [self.world, box2d.pickle_fix(self.world,
+                                                    additional_vars, 'save')]
 
         try:
             pickle.dump(save_values, open(fn, 'wb'))
@@ -446,10 +479,9 @@ class Elements:
 
         return variables
 
-    def json_save(self, path, additional_vars={}):
+    def json_save(self, path, additional_vars={}, serialize=False):
         import json
         worldmodel = {}
-
         save_id_index = 1
         self.world.groundBody.userData = {"saveid": 0}
 
@@ -523,10 +555,7 @@ class Elements:
         f.write(json.dumps(worldmodel))
         f.close()
 
-        for body in self.world.bodies:
-            del body.userData['saveid']  # remove temporary data
-
-    def json_load(self, path, additional_vars={}):
+    def json_load(self, path, serialized=False):
         import json
 
         self.world.groundBody.userData = {"saveid": 0}
@@ -544,6 +573,8 @@ class Elements:
         # load bodies
         for body in worldmodel['bodylist']:
             bodyDef = box2d.b2BodyDef()
+            if body['dynamic']:
+                bodyDef.type = box2d.b2_dynamicBody
             bodyDef.position = body['position']
             bodyDef.userData = body['userData']
             bodyDef.angle = body['angle']
@@ -556,8 +587,8 @@ class Elements:
                     if shape['type'] == 'polygon':
                         polyDef = box2d.b2FixtureDef()
                         polyShape = box2d.b2PolygonShape()
-                        polyDef.shape = polyShape
                         polyShape.vertices = shape['vertices']
+                        polyDef.shape = polyShape
                         polyDef.density = shape['density']
                         polyDef.restitution = shape['restitution']
                         polyDef.friction = shape['friction']
@@ -565,12 +596,12 @@ class Elements:
                     if shape['type'] == 'circle':
                         circleDef = box2d.b2FixtureDef()
                         circleShape = box2d.b2CircleShape()
-                        circleDef.shape = circleShape
                         circleShape.radius = shape['radius']
+                        circleShape.pos = shape['localPosition']
+                        circleDef.shape = circleShape
                         circleDef.density = shape['density']
                         circleDef.restitution = shape['restitution']
                         circleDef.friction = shape['friction']
-                        circleShape.pos = shape['localPosition']
                         newBody.CreateFixture(circleDef)
 
         for joint in worldmodel['jointlist']:
@@ -596,8 +627,24 @@ class Elements:
                 jointDef.maxMotorTorque = joint['maxMotorTorque']
                 self.world.CreateJoint(jointDef)
 
+        self.additional_vars = {}
+        addvars = {}
         for (k, v) in list(worldmodel['additional_vars'].items()):
-            additional_vars[k] = v
+            addvars[k] = v
+
+        if serialized and 'trackinfo' in addvars:
+            trackinfo = addvars['trackinfo']
+            for key, info in trackinfo.items():
+                if not info[3]:
+                    addvars['trackinfo'][key][0] = \
+                        self.getBodyWithSaveId(info[0])
+                    addvars['trackinfo'][key][1] = \
+                        self.getBodyWithSaveId(info[1])
+                else:
+                    addvars['trackinfo'][key][0] = None
+                    addvars['trackinfo'][key][1] = None
+
+        self.additional_vars = addvars
 
         for body in self.world.bodies:
             del body.userData['saveid']  # remove temporary data
