@@ -29,8 +29,28 @@ from gettext import gettext as _
 import logging
 
 class PhysicsGame:
-    def __init__(self):
-        pass
+    def __init__(self, activity=None):
+        self.activity = activity
+        # Get everything set up
+        self.clock = pygame.time.Clock()
+        self.in_focus = True
+        # Create the name --> instance map for components
+        self.toolList = {}
+        for c in tools.allTools:
+            self.toolList[c.name] = c(self)
+        self.currentTool = self.toolList[tools.allTools[0].name]
+        # Set up the world (instance of Elements)
+        self.box2d = box2d
+        self.opening_queue = None
+        self.running = True
+        self.initialise = True
+
+        self.full_pos_list = []
+        self.tracked_bodies = 0
+
+        self.trackinfo = {}
+
+        self.box2d_fps = 50
 
     def run(self):
         pygame.init()
