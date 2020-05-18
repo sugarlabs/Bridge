@@ -16,13 +16,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-sys.path.insert(0, "lib")
+from gettext import gettext as _
+
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('Gdk', '3.0')
+
+import pygame
+import sugargame.canvas
+
 from gi.repository import Gtk
 from gi.repository import Gdk
-import pygame
 
 from sugar3.activity.activity import Activity
 from sugar3.activity.widgets import ActivityToolbarButton
@@ -32,12 +36,8 @@ from sugar3.graphics.style import GRID_CELL_SIZE
 from sugar3.activity.widgets import ActivityButton
 from sugar3.activity.widgets import StopButton
 
-from gettext import gettext as _
-
-import sugargame.canvas
-
 import tools
-import physics
+from physics import PhysicsGame
 
 
 class BridgeActivity(Activity):
@@ -45,7 +45,7 @@ class BridgeActivity(Activity):
     def __init__(self, handle):
         Activity.__init__(self, handle)
 
-        self.game = physics.PhysicsGame(activity=self)
+        self.game = PhysicsGame(activity=self)
         self.build_toolbar()
         self._pygamecanvas = sugargame.canvas.PygameCanvas(self,
                              main=self.game.run,
