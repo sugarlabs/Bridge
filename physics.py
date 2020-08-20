@@ -22,7 +22,7 @@ import pygame
 import pygame.locals
 import pygame.color
 import Box2D as box2d
-from myelements import elements
+from lib.myelements import elements
 import tools
 from bridge import Bridge
 from gettext import gettext as _
