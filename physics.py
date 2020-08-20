@@ -48,6 +48,7 @@ class PhysicsGame:
         self.full_pos_list = []
         self.tracked_bodies = 0
         self.cost = 0
+        self.capacity = 1
 
         self.trackinfo = {}
         self.box2d_fps = 50
@@ -62,7 +63,8 @@ class PhysicsGame:
             'trackinfo': self.trackinfo,
             'full_pos_list': self.full_pos_list,
             'tracked_bodies': self.tracked_bodies,
-            'cost': self.bridge.cost
+            'cost': self.bridge.cost,
+            'capacity': self.bridge.capacity
         }
         self.world.json_save(path, additional_data)
 
@@ -111,11 +113,15 @@ class PhysicsGame:
                         self.world.additional_vars['tracked_bodies']
                 if 'cost' in self.world.additional_vars:
                     self.cost = self.world.additional_vars['cost']
+                if 'capacity' in self.world.additional_vars:
+                    self.capacity = self.world.additional_vars['capacity']
 
 
         self.bridge = Bridge(self)
         self.bridge.create_world()
         self.bridge.cost = self.cost
+        self.bridge.stress = 0
+        self.bridge.capacity = self.capacity
 
         self.running = True
         t = pygame.time.get_ticks()
