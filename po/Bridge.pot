@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-23 01:34+0530\n"
+"POT-Creation-Date: 2020-08-23 00:39+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,29 +27,29 @@ msgid ""
 "mechanical engineering through building a bridge across a ravine."
 msgstr ""
 
-#: physics.py:87
+#: physics.py:181
 #, python-format
 msgid "Total Cost: %d"
 msgstr ""
 
-#: physics.py:92
+#: physics.py:186
 #, python-format
 msgid "Stress: %d%%"
 msgstr ""
 
-#: physics.py:98
+#: physics.py:192
 msgid "Train fell off the screen, press R to try again!"
 msgstr ""
 
-#: physics.py:102
+#: physics.py:196
 msgid "Level completed, well done!!"
 msgstr ""
 
-#: physics.py:106
+#: physics.py:200
 msgid "Press T to send another train."
 msgstr ""
 
-#: physics.py:110
+#: physics.py:204
 msgid "Press the Spacebar to start/pause."
 msgstr ""
 
