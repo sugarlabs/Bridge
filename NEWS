@@ -1,2 +1,45 @@
+4
+
+* Refresh POT file (Jui Pradhan),
+* Fix Stress Ratio after resuming from the journal (Jui Pradhan),
+* Save to Journal (Jui Pradhan),
+* Fix ImportError (Jui Pradhan),
+* Re-add read_file() and write_file() (Srevin Saju),
+* Rewrite opening queue function to parse written data shapes (Srevin Saju),
+* Add, reorder and fix imports (Srevin Saju, Jui Pradhan),
+* Merge upstream physics changes (Srevin Saju),
+* Merge physics/myelements to bridge/myelements (Srevin Saju),
+* Fix errors in elements.py (Jui Pradhan),
+* Add usual elements and description in toolbar (Jui Pradhan),
+* Fetch new translations (Jui Pradhan),
+* Add Cost for Circle and fix negative costs (Jui Pradhan),
+* Fix Assertion Error (Jui Pradhan),
+* Remove level clearing without using Bridge (Jui Pradhan),
+* Fix screen resolution scaling factor (Jui Pradhan),
+* Fix python3 regressions (Jui Pradhan),
+* Port to python3 (Jui Pradhan),
+* Adapt to display size for aspect ratio 16:9 (Jui Pradhan),
+* Replace box2d binaries with Box2D upstream (Saumya Mishra),
+* Flake8 fix and warnings fix (Saumya Mishra),
+* Port from GObject to GLib (Rahul Bothra),
+* Update metadata and screenshots (Vipul Gupta, Jui Pradhan),
+* Add and update Readme (rdrsadhu, Jui Pradhan),
+* Add dist/ and locale/ to .gitignore (James Cameron),
+* Remove deprecated Bundle name (pipix51),
+* Pep8 changes (Emily Ong, Walter Bender),
+* Port to Gtk3 (Emily Ong),
+* Update license and repository metadata (Shivam Chadha, James Cameron),
+* Port to PyBox2D (Ezequiel Pereira),
+* Remove esc for quit (Gary Martin),
+* Draw ground, fix font size (Gary Martin),
+* Replace grab icon with hand icon from Physics (Gary Martin),
+* Remove unnecessary debugging output (Gary Martin),
+* Use recent versions of Box2D and ARM platform compatibility (Gary Martin)
+
+3
+
+* Feature additions
+* Bug Fixes
+
 2
 
