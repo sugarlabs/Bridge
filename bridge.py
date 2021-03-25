@@ -37,7 +37,10 @@ class Bridge:
         self.level_completed = False
         self.sounds = {"wooo": loadSound("sounds/wooo.wav"),
                        "death": loadSound("sounds/death.wav"),
-                       "startup": loadSound("sounds/startup.wav")}
+                       "startup": loadSound("sounds/startup.wav"),
+                       "wooo1": loadSound("sounds/wooo1.wav"),
+                       "wooo2": loadSound("sounds/wooo2.wav")
+                      }
 
     def restart(self):
         self.world.run_physics = False
