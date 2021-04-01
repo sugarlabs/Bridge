@@ -125,7 +125,12 @@ class Bridge:
             if not self.level_completed:
                 self.level_completed = True
                 soundSelection = random.randint(0, 2)
-                self.sounds['wooo'].play()
+                if soundSelection == 0:
+                    self.sounds['wooo'].play()
+                elif soundSelection == 1:
+                    self.sounds['wooo1'].play()
+                else:
+                    self.sounds['wooo2'].play()
                 
         elif pos.y < 0.0:
             if not self.train_off_screen:
