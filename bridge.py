@@ -152,7 +152,11 @@ class Bridge:
         self.train_exit = False
         if not force and self.train_was_created:
             return
-        self.sounds['startup'].play()
+        soundSelection = random.randint(0, 1)
+        if soundSelection == 0:
+            self.sounds['startup'].play()
+        else:
+            self.sounds['startup1'].play()
         self.train_was_created = True
         points = []
         self.train_off_screen = False
