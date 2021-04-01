@@ -134,7 +134,13 @@ class Bridge:
                 
         elif pos.y < 0.0:
             if not self.train_off_screen:
-                self.sounds['death'].play()
+                soundSelection = random.randint(0, 2)
+                if soundSelection == 0:
+                    self.sounds['death'].play()
+                elif soundSelections == 1:
+                    self.sounds['death1'].play()
+                else:
+                    self.sounds['death2'].play()
                 print("TRAIN FELL OFF!", pos.x)
                 self.train_off_screen = True
 
