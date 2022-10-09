@@ -103,17 +103,8 @@ class BridgeActivity(Activity):
             pygame.USEREVENT, action=self.radioList[button])
         pygame.event.post(evt)
 
-    def _update_pause_button(self, paused):
-        if paused:
-            self._pause.set_icon_name('media-playback-start')
-            self._pause.set_tooltip('Play')
-        else:
-            self._pause.set_icon_name('media-playback-pause')
-            self._pause.set_tooltip('Pause')
-
     def _pause_play_cb(self, button):
         self.game.pause_button_up()
-        self._update_pause_button(button.get_active())
 
     def read_file(self, file_path):
         self.game.read_file(file_path)
