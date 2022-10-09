@@ -216,6 +216,11 @@ class PhysicsGame:
         self.currentTool.cancel()
         self.currentTool = self.toolList[tool]
 
+    def pause_button_up(self):
+        self.bridge.create_train()
+        self.world.run_physics = not self.world.run_physics
+
+
 def main():
     toolbarheight = 75
     tabheight = 45
