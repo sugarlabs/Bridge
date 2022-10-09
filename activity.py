@@ -32,6 +32,7 @@ from sugar3.activity.activity import Activity
 from sugar3.activity.widgets import ActivityToolbarButton
 from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.graphics.toolbutton import ToolButton
+from sugar3.graphics.toggletoolbutton import ToggleToolButton
 from sugar3.graphics.style import GRID_CELL_SIZE
 from sugar3.activity.widgets import ActivityButton
 from sugar3.activity.widgets import StopButton
@@ -78,6 +79,12 @@ class BridgeActivity(Activity):
             button.show()
             self.radioList[button] = c.name
 
+        self._pause = ToggleToolButton('media-playback-pause')
+        self._pause.set_tooltip(_('Pause'))
+        self._pause.connect('toggled', self._pause_play_cb)
+        self._pause.show()
+        toolbar_box.toolbar.insert(self._pause, -1)
+
         separator = Gtk.SeparatorToolItem()
         separator.props.draw = False
         separator.set_expand(True)
@@ -95,6 +102,18 @@ class BridgeActivity(Activity):
         evt = pygame.event.Event(
             pygame.USEREVENT, action=self.radioList[button])
         pygame.event.post(evt)
+
+    def _update_pause_button(self, paused):
+        if paused:
+            self._pause.set_icon_name('media-playback-start')
+            self._pause.set_tooltip('Play')
+        else:
+            self._pause.set_icon_name('media-playback-pause')
+            self._pause.set_tooltip('Pause')
+
+    def _pause_play_cb(self, button):
+        self.game.pause_button_up()
+        self._update_pause_button(button.get_active())
 
     def read_file(self, file_path):
         self.game.read_file(file_path)
