@@ -85,6 +85,13 @@ class BridgeActivity(Activity):
         self._pause.show()
         toolbar_box.toolbar.insert(self._pause, -1)
 
+        self._new_train = ToolButton('list-add')
+        self._new_train.show()
+        toolbar_box.toolbar.insert(self._new_train, -1)
+        self._new_train.set_tooltip(_('Create a new train.'))
+        self._new_train.connect('clicked', self.new_train_cb)
+        self._new_train.show()
+
         separator = Gtk.SeparatorToolItem()
         separator.props.draw = False
         separator.set_expand(True)
@@ -105,6 +112,9 @@ class BridgeActivity(Activity):
 
     def _pause_play_cb(self, button):
         self.game.pause_button_up()
+
+    def new_train_cb(self, button):
+        self.game.create_new_train_button_up()
 
     def read_file(self, file_path):
         self.game.read_file(file_path)
