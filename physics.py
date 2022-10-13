@@ -220,6 +220,10 @@ class PhysicsGame:
         self.bridge.create_train()
         self.world.run_physics = not self.world.run_physics
 
+    def create_new_train_button_up(self):
+        if self.bridge.train_exit:
+            self.bridge.create_train(force=True)
+
 
 def main():
     toolbarheight = 75
