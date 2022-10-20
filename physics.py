@@ -223,6 +223,10 @@ class PhysicsGame:
     def create_new_train_button_up(self):
         if self.bridge.train_exit:
             self.bridge.create_train(force=True)
+    
+    def restart_button_up(self):
+        if self.bridge.train_off_screen:
+            self.bridge.restart()
 
 
 def main():
