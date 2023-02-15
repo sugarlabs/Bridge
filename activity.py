@@ -32,6 +32,7 @@ from sugar3.activity.activity import Activity
 from sugar3.activity.widgets import ActivityToolbarButton
 from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.graphics.toolbutton import ToolButton
+from sugar3.graphics.radiotoolbutton import RadioToolButton
 from sugar3.graphics.toggletoolbutton import ToggleToolButton
 from sugar3.graphics.style import GRID_CELL_SIZE
 from sugar3.activity.widgets import ActivityButton
@@ -71,8 +72,13 @@ class BridgeActivity(Activity):
 
         self.blocklist = []
         self.radioList = {}
-        for c in tools.allTools:
-            button = ToolButton(c.icon)
+        for i,c in enumerate(tools.allTools):
+            if i == 0:
+                button = RadioToolButton(group=None)
+                firstbutton = button
+            else:
+                button = RadioToolButton(group=firstbutton)
+            button.set_icon_name(c.icon)
             button.set_tooltip(_(c.toolTip))
             button.connect('clicked', self.radioClicked)
             toolbar_box.toolbar.insert(button, -1)
