@@ -70,8 +70,13 @@ class BridgeActivity(Activity):
         toolbar_box.toolbar.insert(activity_button, 0)
         activity_button.show()
 
+        seperator = Gtk.SeparatorToolItem()
+        toolbar_box.toolbar.insert(seperator, -1)
+        seperator.show()
+
         self.blocklist = []
         self.radioList = {}
+
         for i,c in enumerate(tools.allTools):
             if i == 0:
                 button = RadioToolButton(group=None)
@@ -84,6 +89,10 @@ class BridgeActivity(Activity):
             toolbar_box.toolbar.insert(button, -1)
             button.show()
             self.radioList[button] = c.name
+
+        seperator = Gtk.SeparatorToolItem()
+        toolbar_box.toolbar.insert(seperator, -1)
+        seperator.show()
 
         self._pause = ToggleToolButton('media-playback-pause')
         self._pause.set_tooltip(_('Pause'))
