@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import sys
 from gettext import gettext as _
 
 import gi
@@ -35,7 +34,6 @@ from sugar3.graphics.toolbutton import ToolButton
 from sugar3.graphics.radiotoolbutton import RadioToolButton
 from sugar3.graphics.toggletoolbutton import ToggleToolButton
 from sugar3.graphics.style import GRID_CELL_SIZE
-from sugar3.activity.widgets import ActivityButton
 from sugar3.activity.widgets import StopButton
 
 import tools
@@ -49,9 +47,10 @@ class BridgeActivity(Activity):
 
         self.game = PhysicsGame(activity=self)
         self.build_toolbar()
-        self._pygamecanvas = sugargame.canvas.PygameCanvas(self,
-                             main=self.game.run,
-                             modules=[pygame.display])
+        self._pygamecanvas = sugargame.canvas.PygameCanvas(
+            self,
+            main=self.game.run,
+            modules=[pygame.display])
 
         w = Gdk.Screen.width()
         h = Gdk.Screen.height() - 2 * GRID_CELL_SIZE
@@ -77,7 +76,7 @@ class BridgeActivity(Activity):
         self.blocklist = []
         self.radioList = {}
 
-        for i,c in enumerate(tools.allTools):
+        for i, c in enumerate(tools.allTools):
             if i == 0:
                 button = RadioToolButton(group=None)
                 firstbutton = button
@@ -112,7 +111,7 @@ class BridgeActivity(Activity):
         toolbar_box.toolbar.insert(self._restart, -1)
         self._restart.set_tooltip(_('Restart'))
         self._restart.connect('clicked', self.restart_cb)
-        
+
         separator = Gtk.SeparatorToolItem()
         separator.props.draw = False
         separator.set_expand(True)
@@ -136,7 +135,7 @@ class BridgeActivity(Activity):
 
     def new_train_cb(self, button):
         self.game.create_new_train_button_up()
-    
+
     def restart_cb(self, button):
         self.game.restart_button_up()
 

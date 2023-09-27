@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
 from functools import partial
 
 from math import fabs
@@ -31,9 +32,6 @@ from math import sqrt
 from math import atan2
 from math import degrees
 from math import acos
-
-from .locals import *
-import Box2D as box2d
 
 
 def calc_center(points):
@@ -55,7 +53,7 @@ def poly_center_vertices(pointlist):
         Return: pointlist ([(x, y), ...])
     """
     poly_points_center = []
-    center = cx, cy = calc_center(pointlist)
+    cx, cy = calc_center(pointlist)
 
     for p in pointlist:
         x = p[0] - cx
@@ -181,10 +179,11 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
             # print "x", 180-angle, is_left(vertices[i-1], vertices[i], vertices[i+1])
 
             # Check if convex:
-            if dir == None:
+            if dir is None:
                 dir = is_left(vertices[i - 1], vertices[i], vertices[i + 1])
             else:
-                if dir != is_left(vertices[i - 1], vertices[i], vertices[i + 1]):
+                if dir != is_left(
+                        vertices[i - 1], vertices[i], vertices[i + 1]):
                     is_convex = False
 
     # We also want to append the last point :)
@@ -227,7 +226,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
         else:
             alpha = degrees(atan2(vy, vx))
 
-        if alpha_old == None:
+        if alpha_old is None:
             alpha_old = alpha
             continue
 
@@ -272,7 +271,7 @@ def is_convex(points):
 
     :return: True if the polygon is convex, False otherwise
     """
-    #assert len(points) > 2, "not enough points to form a polygon"
+    # assert len(points) > 2, "not enough points to form a polygon"
 
     p0 = points[0]
     p1 = points[1]

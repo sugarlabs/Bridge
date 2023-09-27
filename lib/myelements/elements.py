@@ -25,6 +25,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
 __version__ = '0.11'
 __contact__ = '<elements@linuxuser.at>'
 
@@ -43,7 +44,8 @@ except:
 from random import shuffle
 
 # Load Elements Definitions
-from .locals import *
+from .locals import INPUT_PIXELS, CALLBACK_DRAWING_START, \
+    CALLBACK_DRAWING_END
 
 # Load Elements Modules
 from . import tools
@@ -285,7 +287,7 @@ class Elements:
         y = pos[1] / self.camera.scale_factor
 
         x, y = self.translate_coord((round(x), round(y)))
-        return(x + dx, y + dy)
+        return (x + dx, y + dy)
 
     def to_screen(self, pos):
         """Transfers a coordinate from the world to the screen coordinate

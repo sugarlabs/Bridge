@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,12 +22,12 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
 from math import pi
 from math import cos
 from math import sin
-from math import sqrt
 
 from . import tools
 
@@ -66,7 +66,7 @@ class draw_pygame(object):
 
             Parameters:
               surface .... pygame surface (default: None)
-              lineWidth .. 
+              lineWidth ..
 
             Return: Class draw_pygame()
         """
@@ -104,7 +104,7 @@ class draw_pygame(object):
             Parameters:
               pt ........ (x, y)
               clr ....... color in rgb ((r), (g), (b))
-              radius .... circle radius 
+              radius .... circle radius
               angle ..... rotation in radians
 
             Return: -
@@ -134,7 +134,7 @@ class draw_pygame(object):
             Return: -
         """
         self.draw.polygon(self.surface, clr, points, self.lineWidth)
-        #self.draw.lines(self.surface, clr, True, points)
+        # self.draw.lines(self.surface, clr, True, points)
 
     def draw_lines(self, clr, closed, points, width=None):
         """ Draw a polygon
@@ -145,7 +145,7 @@ class draw_pygame(object):
 
             Return: -
         """
-        if width == None:
+        if width is None:
             lw = self.lineWidth
         else:
             lw = width
@@ -172,7 +172,7 @@ class draw_cairo(object):
         import cairo
         self.cairo = cairo
         self.set_drawing_method(drawMethod)
-        #self.draw_box = self.draw_box_image
+        # self.draw_box = self.draw_box_image
 
     def set_lineWidth(self, lw):  # unused
         self.lineWidth = lw
@@ -191,7 +191,7 @@ class draw_cairo(object):
     def set_drawing_method(self, type):
         """ type = filled, image """
         self.draw_circle = getattr(self, "draw_circle_%s" % type)
-        #self.draw_box    = getattr(self, "draw_box_%s" % type)
+        # self.draw_box    = getattr(self, "draw_box_%s" % type)
 
     def start_drawing(self):
         self.width, self.height = self.window.get_size()
@@ -210,7 +210,7 @@ class draw_cairo(object):
         ctx.set_line_join(self.cairo.LINE_CAP_BUTT)
         # LINE_CAP_BUTT, LINE_CAP_ROUND, LINE_CAP_SQUARE, LINE_JOIN_BEVEL, LINE_JOIN_MITER, LINE_JOIN_ROUND
 
-        #ctx.set_dash([20/4.0, 20/4.0], 0)
+        # ctx.set_dash([20/4.0, 20/4.0], 0)
 
     def after_drawing(self):
         dest_ctx = self.window.cairo_create()
@@ -238,7 +238,7 @@ class draw_cairo(object):
         pass
 
     def draw_circle_image(self, clr, pt, radius, angle=0, sf=None):
-        if sf == None:
+        if sf is None:
             sf = self.circle_surface
         x, y = pt
         self.ctx.save()
@@ -283,12 +283,21 @@ class draw_cairo(object):
 
         self.ctx.fill()
 
-    def draw_text(self, text, center, clr=(0, 0, 0), size=12, fontname="Georgia"):
+    def draw_text(
+            self,
+            text,
+            center,
+            clr=(0, 0, 0),
+            size=12,
+            fontname="Georgia"):
         clr = tools.rgb2floats(clr)
         self.ctx.set_source_rgb(clr[0], clr[1], clr[2])
 
         self.ctx.select_font_face(
-            fontname, self.cairo.FONT_SLANT_NORMAL, self.cairo.FONT_WEIGHT_NORMAL)
+            fontname,
+            self.cairo.FONT_SLANT_NORMAL,
+            self.cairo.FONT_WEIGHT_NORMAL
+        )
         self.ctx.set_font_size(size)
         x_bearing, y_bearing, width, height = self.ctx.text_extents(text)[:4]
         self.ctx.move_to(center[0] + 0.5 - width / 2 - x_bearing,
@@ -329,7 +338,7 @@ class draw_opengl_pyglet(object):
 
             Parameters:
               surface .... not used with pyglet
-              lineWidth .. 
+              lineWidth ..
         """
         print("* OpenGL_Pyglet selected as renderer")
 

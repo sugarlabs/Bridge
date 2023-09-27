@@ -24,7 +24,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from .locals import *
+
+from .locals import INPUT_PIXELS
 import Box2D as box2d
 
 # Imports
