@@ -94,11 +94,11 @@ class BridgeActivity(Activity):
         toolbar_box.toolbar.insert(seperator, -1)
         seperator.show()
 
-        self._pause = ToggleToolButton('media-playback-pause')
-        self._pause.set_tooltip(_('Pause'))
-        self._pause.connect('toggled', self._pause_play_cb)
-        self._pause.show()
-        toolbar_box.toolbar.insert(self._pause, -1)
+        self._start = ToggleToolButton('media-playback-start')
+        self._start.set_tooltip(_('start'))
+        self._start.connect('toggled', self._start_play_cb)
+        self._start.show()
+        toolbar_box.toolbar.insert(self._start, -1)
 
         self._new_train = ToolButton('list-add')
         self._new_train.show()
@@ -131,8 +131,8 @@ class BridgeActivity(Activity):
             pygame.USEREVENT, action=self.radioList[button])
         pygame.event.post(evt)
 
-    def _pause_play_cb(self, button):
-        self.game.pause_button_up()
+    def _start_play_cb(self, button):
+        self.game.start_button_up()
 
     def new_train_cb(self, button):
         self.game.create_new_train_button_up()
