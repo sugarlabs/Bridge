@@ -433,7 +433,6 @@ class Add:
         polyDef.friction = friction
 
         circleShape = box2d.b2CircleShape()
-        circleShape.radius = radius
         circleDef = box2d.b2FixtureDef()
         circleDef.shape = circleShape
         circleDef.density = density
