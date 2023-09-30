@@ -32,11 +32,13 @@ __contact__ = '<elements@linuxuser.at>'
 # Load Box2D
 try:
     import Box2D as box2d
-except:
+except Exception:
     print('Could not load the pybox2d library (Box2D).')
     print('Please run "setup.py install" to install the dependencies.')
     print()
-    print('Alternatively, recompile pybox2d for your system and python version.')
+    print(
+        'Alternatively, recompile pybox2d for your system and python version.'
+    )
     print("See http://code.google.com/p/pybox2d")
     exit()
 

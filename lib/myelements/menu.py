@@ -60,7 +60,7 @@ class MenuItem:
         self.font = pygame.font.Font(None, 32)
         text = self.font.render(title, 1, (255, 255, 255))
 
-        rx, ry, rw, rh = rect = text.get_rect()
+        rx, ry, rw, rh = text.get_rect()
         pl, pt, pr, pb = self.padding
 
         s1 = pygame.Surface((rw + pl + pr, rh + pt + pb))
@@ -153,7 +153,8 @@ class MenuClass:
     def click(self, pos):
         """ Checks a click for menuitems and starts the callback if found
 
-            Return: True if a menu item was found or hit the MenuBar, and False if not
+            Return: True if a menu item was found or hit the MenuBar,
+            and False if not
         """
         focus_in = self.focus
 

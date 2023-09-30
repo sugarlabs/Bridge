@@ -89,13 +89,13 @@ def is_line(vertices, tolerance=25.0):
         vx, vy = (x2 - x1, y2 - y1)
 
         # Check Length
-        l = sqrt((vx * vx) + (vy * vy))
-        if l == 0.0:
+        vector_length = sqrt((vx * vx) + (vy * vy))
+        if vector_length == 0.0:
             continue
 
         # Normalize vector
-        vx /= l
-        vy /= l
+        vx /= vector_length
+        vy /= vector_length
 
         # Append angle
         if fabs(vx) < 0.2:
@@ -119,8 +119,10 @@ def is_line(vertices, tolerance=25.0):
 
 
 def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
-    """ This function reduces a poly by the angles of the vectors (detect lines)
-        If the angle difference from one vector to the last > tolerance: use last point
+    """ This function reduces a poly by the angles of the vectors
+        (detect lines)
+        If the angle difference from one vector to the last > tolerance:
+        use last point
         If the angle is quite the same, it's on the line
 
         Parameters:
@@ -168,7 +170,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
         # We have a bug here sometimes...
         try:
             angle = degrees(acos(a / (b * c)))
-        except:
+        except Exception:
             # cos=1.0
             print("cos=", a / (b * c))
             continue
@@ -176,7 +178,8 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
         # Check if inside tolerance
         if fabs(angle) > tolerance:
             p_new.append(vertices[i])
-            # print "x", 180-angle, is_left(vertices[i-1], vertices[i], vertices[i+1])
+            # print "x", 180-angle, is_left(vertices[i-1], vertices[i],
+            # vertices[i+1])
 
             # Check if convex:
             if dir is None:
@@ -214,11 +217,11 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
         vx, vy = (x2 - x1, y2 - y1)
 
         # Vector length
-        l = sqrt((vx * vx) + (vy * vy))
+        vector_length = sqrt((vx * vx) + (vy * vy))
 
         # normalize
-        vx /= l
-        vy /= l
+        vx /= vector_length
+        vy /= vector_length
 
         # Get Angle
         if fabs(vx) < 0.2:
@@ -314,8 +317,8 @@ def reduce_poly(points, tolerance=50):
         x2, y2 = p
         dx = fabs(x2 - x1)
         dy = fabs(y2 - y1)
-        l = sqrt((dx * dx) + (dy * dy))
-        if l > tolerance:
+        distance = sqrt((dx * dx) + (dy * dy))
+        if distance > tolerance:
             curr_p = p
             reduced_ps.append(p)
 
@@ -350,14 +353,14 @@ def convex_hull(points):
 
         pt1 = hull[-1]
         pt2 = hull[-2]
-        l = is_left(pt2, pt1, p)
-        if l > 0:
+        left_check = is_left(pt2, pt1, p)
+        if left_check > 0:
             hull.append(p)
         else:
-            while l <= 0 and len(hull) > 2:
+            while left_check <= 0 and len(hull) > 2:
                 hull.pop()
                 pt1 = hull[-1]
                 pt2 = hull[-2]
-                l = is_left(pt2, pt1, p)
+                left_check = is_left(pt2, pt1, p)
             hull.append(p)
     return hull

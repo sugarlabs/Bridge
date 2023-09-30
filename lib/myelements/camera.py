@@ -38,7 +38,9 @@ class Camera:
         - Places to check for it: elements.py, drawing.py, add_objects.py
 
     """
-    scale_factor = 1.0          # All coords to the renderer are multiplied with the scale factor in elements.draw()
+    # All coords to the renderer are multiplied with
+    # the scale factor in elements.draw()
+    scale_factor = 1.0
     # Body which means to be tracked. Offset is set at each elements.draw()
     track_body = None
 
@@ -90,7 +92,8 @@ class Camera:
         self._set_offset((x / self.parent.ppm, y / self.parent.ppm))
 
     def inc_offset(self, offset, screenCoord=True, stopTrack=True):
-        """ Increment an offset from the screen to the world cs -- in world coordinates and in pixel
+        """ Increment an offset from the screen to the world cs -- in world
+            coordinates and in pixel
         """
         # Stop tracking of an object
         if stopTrack:

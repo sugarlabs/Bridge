@@ -31,8 +31,10 @@ import Box2D as box2d
 
 
 class CallbackHandler:
-    # List of contact callbacks and shapes to start them - sorted by type for quicker access
-    # Callbacks are saved as callbacks[callback_type][[function, parameters], ...]
+    # List of contact callbacks and shapes to start them -sorted by
+    # type for quicker access
+    # Callbacks are saved as
+    # callbacks[callback_type][[function, parameters], ...]
     callbacks = {}
 
     def __init__(self, parent):
@@ -49,7 +51,8 @@ class CallbackHandler:
            Parameters:
              callback_type ......... CALLBACK_CONTACT (nothing else for now)
              callback_handler ...... a callback function
-             args (optional) ....... a list of parameters which can be used with callbacks.get
+             args (optional) ....... a list of parameters which can be used
+             with callbacks.get
 
            Return:
              callback_id ... used to remove a callback later (int)

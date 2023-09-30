@@ -208,7 +208,8 @@ class draw_cairo(object):
         ctx.set_tolerance(0.1)
 
         ctx.set_line_join(self.cairo.LINE_CAP_BUTT)
-        # LINE_CAP_BUTT, LINE_CAP_ROUND, LINE_CAP_SQUARE, LINE_JOIN_BEVEL, LINE_JOIN_MITER, LINE_JOIN_ROUND
+        # LINE_CAP_BUTT, LINE_CAP_ROUND, LINE_CAP_SQUARE, LINE_JOIN_BEVEL,
+        # LINE_JOIN_MITER, LINE_JOIN_ROUND
 
         # ctx.set_dash([20/4.0, 20/4.0], 0)
 
