@@ -46,7 +46,8 @@ class CallbackHandler:
             self.callbacks[i] = []
 
     def add(self, callback_type, callback_handler, *args):
-        """ Users can add callbacks for certain (or all) collisions
+        """
+            Users can add callbacks for certain (or all) collisions
 
            Parameters:
              callback_type ......... CALLBACK_CONTACT (nothing else for now)

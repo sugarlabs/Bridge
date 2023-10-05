@@ -43,7 +43,8 @@ class Add:
         self.parent = parent
 
     def ground(self):
-        """ Add a static ground to the scene
+        """
+            Add a static ground to the scene
 
             Return: box2d.b2Body
         """
@@ -58,7 +59,8 @@ class Add:
             restitution=0.16,
             friction=0.5,
             screenCoord=True):
-        """ Add a triangle | pos & a in the current input unit system
+        """
+            Add a triangle | pos & a in the current input unit system
             (meters or pixels)
 
             Parameters:
@@ -88,7 +90,8 @@ class Add:
             restitution=0.16,
             friction=0.5,
             screenCoord=True):
-        """ Add a dynamic ball at pos after correcting the positions and
+        """
+            Add a dynamic ball at pos after correcting the positions and
             legths to the internal
             meter system if neccessary (if INPUT_PIXELS),
             then call self._add_ball(...)
@@ -167,7 +170,8 @@ class Add:
             restitution=0.16,
             friction=0.5,
             screenCoord=True):
-        """ Add a dynamic rectangle with input unit according to self.input
+        """
+            Add a dynamic rectangle with input unit according to self.input
             (INPUT_PIXELS or INPUT_METERS)
             Correcting the positions to meters and calling self._add_rect()
 
@@ -209,7 +213,8 @@ class Add:
             restitution=0.16,
             friction=0.5,
             screenCoord=True):
-        """ Add a static rectangle between two arbitrary points
+        """
+            Add a static rectangle between two arbitrary points
             with input unit according to self.input
             (INPUT_PIXELS or INPUT_METERS) Correcting the positions
             to meters and calling self._add_rect()
@@ -302,7 +307,8 @@ class Add:
             restitution=0.16,
             friction=0.5,
             screenCoord=True):
-        """ Add a dynamic polygon, which has the vertices arranged around
+        """
+            Add a dynamic polygon, which has the vertices arranged around
             the poly's center at pos
             Correcting the positions to meters if INPUT_PIXELS,
             and calling self._add_poly()
@@ -527,7 +533,8 @@ class Add:
             density=1.0,
             restitution=0.16,
             friction=0.5):
-        """ Add a complex polygon with vertices in absolute positions
+        """
+            Add a complex polygon with vertices in absolute positions
             (meters or pixels, according
             to INPUT_PIXELS or INPUT_METERS). This function does the reduction
             and convec hulling

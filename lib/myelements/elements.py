@@ -60,7 +60,8 @@ from . import camera
 
 
 class Elements:
-    """The class which handles all interaction with the box2d engine
+    """
+        The class which handles all interaction with the box2d engine
     """
     # Settings
     run_physics = True           # Can pause the simulation
@@ -86,7 +87,8 @@ class Elements:
 
     def __init__(self, screen_size, gravity=(0.0, -9.0), ppm=100.0,
                  renderer='pygame'):
-        """ Init the world with boundaries and gravity, and init colors.
+        """
+            Init the world with boundaries and gravity, and init colors.
 
             Parameters:
               screen_size .. (w, h) -- screen size in pixels [int]
@@ -122,7 +124,8 @@ class Elements:
         self.ppm = ppm
 
     def set_inputUnit(self, input_unit):
-        """ Change the input unit to either meter or pixels
+        """
+            Change the input unit to either meter or pixels
 
             Parameters:
               input ... INPUT_METERS or INPUT_PIXELS
@@ -132,7 +135,8 @@ class Elements:
         self.input_unit = input_unit
 
     def set_inputAxisOrigin(self, left=True, top=False):
-        """ Change the origin of the input coordinate system axis
+        """
+            Change the origin of the input coordinate system axis
 
             Parameters:
               left ... True or False -- x = 0 is at the left?
@@ -144,7 +148,8 @@ class Elements:
         self.inputAxis_y_down = top
 
     def set_drawingMethod(self, m, *kw):
-        """ Set a drawing method (from drawing.py)
+        """
+            Set a drawing method (from drawing.py)
 
             Parameters:
               m .... 'pygame' or 'cairo'
@@ -159,7 +164,8 @@ class Elements:
             return False
 
     def set_screenSize(self, size):
-        """ Set the current screen size
+        """
+            Set the current screen size
 
             Parameters:
               size ... (int(width), int(height)) in pixels
@@ -169,7 +175,8 @@ class Elements:
         self.display_width, self.display_height = size
 
     def init_colors(self):
-        """ Init self.colors with a fix set of hex colors
+        """
+            Init self.colors with a fix set of hex colors
 
             Return: -
         """
@@ -182,7 +189,8 @@ class Elements:
         shuffle(self.colors)
 
     def set_color(self, clr):
-        """ Set a fixed color for all future Elements (until reset_color()
+        """
+            Set a fixed color for all future Elements (until reset_color()
             is called)
 
             Parameters:
@@ -193,14 +201,16 @@ class Elements:
         self.fixed_color = clr
 
     def reset_color(self):
-        """ All Elements from now on will be drawn in random colors
+        """
+            All Elements from now on will be drawn in random colors
 
             Return: -
         """
         self.fixed_color = None
 
     def _get_color(self):
-        """ Get a color - either the fixed one or the next from self.colors
+        """
+            Get a color - either the fixed one or the next from self.colors
 
             Return: clr = ((R), (G), (B))
         """
@@ -215,7 +225,8 @@ class Elements:
         return clr
 
     def next_color(self):
-        """ Next color - either the fixed one of the next from self.colors
+        """
+            Next color - either the fixed one of the next from self.colors
 
             Return: clr = ((R), (G), (B))
         """
@@ -224,7 +235,8 @@ class Elements:
         return self._get_color()
 
     def get_color(self):
-        """ Get a color - either the fixed one or the next from self.colors
+        """
+            Get a color - either the fixed one or the next from self.colors
 
             Return: clr = ((R), (G), (B))
         """
@@ -237,7 +249,8 @@ class Elements:
         return clr
 
     def update(self, fps=50.0, vel_iterations=10, pos_iterations=8):
-        """ Update the physics, if not paused (self.run_physics)
+        """
+            Update the physics, if not paused (self.run_physics)
 
             Parameters:
               fps ............. fps with which the physics engine shall work
@@ -252,7 +265,8 @@ class Elements:
             self.world.Step(1.0 / fps, vel_iterations, pos_iterations)
 
     def translate_coord(self, point):
-        """ Flips the coordinates in another coordinate system orientation,
+        """
+            Flips the coordinates in another coordinate system orientation,
             if necessary (screen <> world coordinate system)
         """
         x, y = point
@@ -266,7 +280,8 @@ class Elements:
         return (x, y)
 
     def translate_coords(self, pointlist):
-        """Flips the coordinates in another coordinate system orientation, if
+        """
+            Flips the coordinates in another coordinate system orientation, if
             necessary (screen <> world coordinate system)
         """
         p_out = []
@@ -275,8 +290,9 @@ class Elements:
         return p_out
 
     def to_world(self, pos):
-        """ Transfers a coordinate from the screen to the world
-        coordinate system (pixels)
+        """
+            Transfers a coordinate from the screen to the world
+            coordinate system (pixels)
 
             - Change to the right axis orientation
             - Include the offset: screen -- world coordinate system
@@ -292,7 +308,8 @@ class Elements:
         return (x + dx, y + dy)
 
     def to_screen(self, pos):
-        """Transfers a coordinate from the world to the screen coordinate
+        """
+            Transfers a coordinate from the world to the screen coordinate
             system (pixels) and by the screen offset
         """
         dx, dy = self.screen_offset_pixel
@@ -306,7 +323,8 @@ class Elements:
         return i * self.ppm * self.camera.scale_factor
 
     def get_bodies_at_pos(self, search_point, include_static=False, area=0.01):
-        """ Check if given point (screen coordinates) is inside any body.
+        """
+            Check if given point (screen coordinates) is inside any body.
             If yes, return all found bodies, if not found return False
         """
         sx, sy = self.to_world(search_point)
@@ -338,7 +356,8 @@ class Elements:
         return bodylist
 
     def draw(self):
-        """ If a drawing method is specified, this function passes the objects
+        """
+            If a drawing method is specified, this function passes the objects
             to the module in pixels.
 
             Return: True if the objects were successfully drawn
@@ -453,9 +472,9 @@ class Elements:
 
     def pickle_load(self, fn, set_vars=True, additional_vars=[]):
         """
-        Load the pickled world in file fn.
-        additional_vars is a dictionary to be populated with the
-        loaded variables.
+            Load the pickled world in file fn.
+            additional_vars is a dictionary to be populated with the
+            loaded variables.
         """
         import pickle as pickle
         try:

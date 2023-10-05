@@ -119,7 +119,8 @@ def is_line(vertices, tolerance=25.0):
 
 
 def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
-    """ This function reduces a poly by the angles of the vectors
+    """
+        This function reduces a poly by the angles of the vectors
         (detect lines)
         If the angle difference from one vector to the last > tolerance:
         use last point
@@ -253,9 +254,10 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
 # The following functions is_left, reduce_poly and convex_hull are
 # from the pymunk project (http://code.google.com/p/pymunk/)
 def is_left(p0, p1, p2):
-    """Test if p2 is left, on or right of the (infinite) line (p0,p1).
+    """
+        Test if p2 is left, on or right of the (infinite) line (p0,p1).
 
-    :return: > 0 for p2 left of the line through p0 and p1
+        :return: > 0 for p2 left of the line through p0 and p1
         = 0 for p2 on the line
         < 0 for p2 right of the line
     """
@@ -270,9 +272,10 @@ def is_left(p0, p1, p2):
 
 
 def is_convex(points):
-    """Test if a polygon (list of (x,y)) is strictly convex or not.
+    """
+        Test if a polygon (list of (x,y)) is strictly convex or not.
 
-    :return: True if the polygon is convex, False otherwise
+        :return: True if the polygon is convex, False otherwise
     """
     # assert len(points) > 2, "not enough points to form a polygon"
 
@@ -304,10 +307,11 @@ def sign(x):
 
 
 def reduce_poly(points, tolerance=50):
-    """Remove close points to simplify a polyline
-    tolerance is the min distance between two points squared.
+    """
+        Remove close points to simplify a polyline
+        tolerance is the min distance between two points squared.
 
-    :return: The reduced polygon as a list of (x,y)
+        :return: The reduced polygon as a list of (x,y)
     """
     curr_p = points[0]
     reduced_ps = [points[0]]
@@ -326,10 +330,11 @@ def reduce_poly(points, tolerance=50):
 
 
 def convex_hull(points):
-    """Create a convex hull from a list of points.
-    This function uses the Graham Scan Algorithm.
+    """
+        Create a convex hull from a list of points.
+        This function uses the Graham Scan Algorithm.
 
-    :return: Convex hull as a list of (x,y)
+        :return: Convex hull as a list of (x,y)
     """
     # Find lowest rightmost point
     p0 = points[0]

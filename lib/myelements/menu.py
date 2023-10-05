@@ -90,7 +90,8 @@ class MenuItem:
 
 
 class MenuClass:
-    """ Important: Never delete an Item, just overwrite it if deleting,
+    """
+        Important: Never delete an Item, just overwrite it if deleting,
         else the menuitem id's get messed up
     """
     # current active menu point it
@@ -151,7 +152,8 @@ class MenuClass:
         return len(self.items)
 
     def click(self, pos):
-        """ Checks a click for menuitems and starts the callback if found
+        """
+            Checks a click for menuitems and starts the callback if found
 
             Return: True if a menu item was found or hit the MenuBar,
             and False if not
@@ -187,7 +189,8 @@ class MenuClass:
             return False
 
     def draw(self, surface):
-        """ Draw the menu with pygame on a given surface
+        """
+            Draw the menu with pygame on a given surface
         """
         s = pygame.Surface((self.width, self.height))
         s.fill(tools.hex2rgb(COLOR_HEX_BLUE1))

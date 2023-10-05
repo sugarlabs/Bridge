@@ -330,12 +330,14 @@ class draw_cairo(object):
 
 
 class draw_opengl_pyglet(object):
-    """ This class handles the drawing with pyglet
+    """
+        This class handles the drawing with pyglet
     """
     lineWidth = 0
 
     def __init__(self):
-        """ Load pyglet.gl, and reference it for the drawing methods
+        """
+            Load pyglet.gl, and reference it for the drawing methods
 
             Parameters:
               surface .... not used with pyglet
