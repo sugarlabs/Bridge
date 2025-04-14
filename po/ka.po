@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-23 00:39+0530\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-04-14 13:22+0000\n"
+"Last-Translator: NF <rkavt@smartprojects.ge>\n"
+"Language-Team: Georgian <http://weblate.sugarlabs.org/projects/"
+"sugar-activities/bridge/ka/>\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.4.2\n"
 
 #: activity/activity.info:2
 msgid "Bridge"
-msgstr ""
+msgstr "ხიდი"
 
 #: activity/activity.info:3
 msgid ""
@@ -29,16 +32,16 @@ msgstr ""
 #: physics.py:181
 #, python-format
 msgid "Total Cost: %d"
-msgstr ""
+msgstr "ჯამური ფასი: %d"
 
 #: physics.py:186
 #, python-format
 msgid "Stress: %d%%"
-msgstr ""
+msgstr "სტრესი: %d%%"
 
 #: physics.py:192
 msgid "Train fell off the screen, press R to try again!"
-msgstr ""
+msgstr "მატარებელი ეკრანიდან გადავარდა. თავიდან საცდელად დააჭირეთ ღილაკს R!"
 
 #: physics.py:196
 msgid "Level completed, well done!!"
@@ -50,24 +53,28 @@ msgstr ""
 
 #: physics.py:204
 msgid "Press the Spacebar to start/pause."
-msgstr ""
+msgstr "დასაყებად/შესაჩერებლად დააჭირეთ ღილაკს ჰარე."
 
 #: tools.py:92
 msgid "Circle"
-msgstr ""
+msgstr "წრე"
 
 #: tools.py:141
 msgid "Girder"
-msgstr ""
+msgstr "კოჭი"
 
 #: tools.py:219
 msgid "Grab"
-msgstr ""
+msgstr "აღება"
 
 #: tools.py:253
 msgid "Destroy"
-msgstr ""
+msgstr "განადგურება"
 
 #: tools.py:298
 msgid "Bridge Joint"
-msgstr ""
+msgstr "ხიდის შეერთება"
+
+#: physics.py:98
+msgid "Level completed, well done!!  Press T to send another train."
+msgstr "დონე დასრულდა. კარგია    სხვა მატარებლის გასაგზავნად დააჭირეთ ღილაკს T."
