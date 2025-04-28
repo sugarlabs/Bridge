@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,15 +22,19 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from .locals import *
+
+from .locals import CALLBACK_CONTACT_ADD, CALLBACK_CONTACT_PERSIST, \
+    CALLBACK_CONTACT_REMOVE
 import Box2D as box2d
 
 
 class CallbackHandler:
-    # List of contact callbacks and shapes to start them - sorted by type for quicker access
-    # Callbacks are saved as callbacks[callback_type][[function, parameters], ...]
+    # List of contact callbacks and shapes to start them -sorted by
+    # type for quicker access
+    # Callbacks are saved as
+    # callbacks[callback_type][[function, parameters], ...]
     callbacks = {}
 
     def __init__(self, parent):
@@ -42,19 +46,24 @@ class CallbackHandler:
             self.callbacks[i] = []
 
     def add(self, callback_type, callback_handler, *args):
-        """ Users can add callbacks for certain (or all) collisions
+        """
+            Users can add callbacks for certain (or all) collisions
 
            Parameters:
              callback_type ......... CALLBACK_CONTACT (nothing else for now)
              callback_handler ...... a callback function
-             args (optional) ....... a list of parameters which can be used with callbacks.get
+             args (optional) ....... a list of parameters which can be used
+             with callbacks.get
 
            Return:
              callback_id ... used to remove a callback later (int)
         """
         # Create contact listener if required
-        if callback_type in [CALLBACK_CONTACT_ADD, CALLBACK_CONTACT_PERSIST, CALLBACK_CONTACT_REMOVE]:
-            if self.parent.listener == None:
+        if callback_type in [
+            CALLBACK_CONTACT_ADD,
+            CALLBACK_CONTACT_PERSIST,
+                CALLBACK_CONTACT_REMOVE]:
+            if self.parent.listener is None:
                 self.parent.listener = kContactListener(self.get)
                 self.parent.world.SetContactListener(self.parent.listener)
                 print("* ContactListener added")

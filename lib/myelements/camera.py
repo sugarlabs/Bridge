@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,13 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from .locals import *
 
 
 class Camera:
-    """ The Camera class. We will see :)
+    """
+        The Camera class. We will see :)
         Please also see: http://www.assembla.com/spaces/elements/tickets/31
 
         This class currently handles:
@@ -37,9 +37,10 @@ class Camera:
 
         Inputs from the user have to be checked for them.
         - Places to check for it: elements.py, drawing.py, add_objects.py
-
     """
-    scale_factor = 1.0          # All coords to the renderer are multiplied with the scale factor in elements.draw()
+    # All coords to the renderer are multiplied with
+    # the scale factor in elements.draw()
+    scale_factor = 1.0
     # Body which means to be tracked. Offset is set at each elements.draw()
     track_body = None
 
@@ -47,17 +48,20 @@ class Camera:
         self.parent = parent
 
     def track(self, body):
-        """ Start tracking a specific body
+        """
+            Start tracking a specific body
         """
         self.track_body = body
 
     def track_stop(self):
-        """ Stop tracking a body
+        """
+            Stop tracking a body
         """
         self.track_body = None
 
     def center(self, pos, screenCoord=True, stopTrack=True):
-        """ Centers the camera at given screen coordinates -- in pixel
+        """
+            Centers the camera at given screen coordinates -- in pixel
             Typical call: world.camera.center(event.pos)
 
             Problem: Works ONLY WITH screenCoord now!
@@ -75,7 +79,8 @@ class Camera:
         self.inc_offset((x, y), screenCoord, stopTrack)
 
     def set_offset(self, offset, screenCoord=True, stopTrack=True):
-        """ Set an offset from the screen to the world cs 
+        """
+            Set an offset from the screen to the world cs
             -- in screen (or world) coordinates and in pixel
         """
         # Stop tracking of an object
@@ -91,7 +96,9 @@ class Camera:
         self._set_offset((x / self.parent.ppm, y / self.parent.ppm))
 
     def inc_offset(self, offset, screenCoord=True, stopTrack=True):
-        """ Increment an offset from the screen to the world cs -- in world coordinates and in pixel
+        """
+            Increment an offset from the screen to the world cs -- in world
+            coordinates and in pixel
         """
         # Stop tracking of an object
         if stopTrack:
@@ -113,7 +120,8 @@ class Camera:
                           (y + dy) / self.parent.ppm))
 
     def _set_offset(self, offset):
-        """ Set the screen offset to the world coordinate system
+        """
+            Set the screen offset to the world coordinate system
             (using meters and the world coordinate system's orientation)
         """
         x, y = offset
@@ -122,11 +130,13 @@ class Camera:
             x * self.parent.ppm, y * self.parent.ppm)
 
     def set_scale_factor(self, factor=1.0):
-        """ Zoom factor for the renderer 1.0 = 1:1 (original)
+        """
+            Zoom factor for the renderer 1.0 = 1:1 (original)
         """
         self.scale_factor = factor
 
     def inc_scale_factor(self, factor=0.0):
-        """ Increases the zooms for the renderer a given factor
+        """
+            Increases the zooms for the renderer a given factor
         """
         self.scale_factor += factor

@@ -13,12 +13,12 @@ Code:   http://dev.laptop.org/git?p=activities/physics
 
 License:  GPLv3 http://gplv3.fsf.org/
 """
+
 import os
 
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-from gi.repository import Gdk
 import pygame
 import pygame.locals
 import pygame.color
@@ -28,6 +28,7 @@ import tools
 from bridge import Bridge
 from gettext import gettext as _
 import logging
+
 
 class PhysicsGame:
     def __init__(self, activity=None):
@@ -79,7 +80,6 @@ class PhysicsGame:
         self.font = pygame.font.Font(None, 42)  # font object
         self.debug = True
 
-
         # set up the world (instance of Elements)
         self.world = elements.Elements(self.screen.get_size())
         self.world.renderer.set_surface(self.screen)
@@ -116,7 +116,6 @@ class PhysicsGame:
                 if 'capacity' in self.world.additional_vars:
                     self.capacity = self.world.additional_vars['capacity']
 
-
         self.bridge = Bridge(self)
         self.bridge.create_world()
         self.bridge.cost = self.cost
@@ -145,12 +144,11 @@ class PhysicsGame:
             self.world.draw()
             if self.world.run_physics:
                 self.bridge.for_each_frame()
-                bodies_present = len(self.world.world.bodies)
 
                 for key, info in self.trackinfo.items():
                     # [host_body, tracker, color, destroyed?]
                     body = info[1]
-                    if info[3] is False: # Not destroyed
+                    if info[3] is False:  # Not destroyed
                         trackdex = info[4]
 
                         def to_screen(pos):
@@ -164,15 +162,14 @@ class PhysicsGame:
 
                         x = body.position.x
                         y = body.position.y
-                        tupled_pos = to_screen((x,y))
+                        tupled_pos = to_screen((x, y))
                         posx = tupled_pos[0]
                         posy = tupled_pos[1]
                         try:
                             self.full_pos_list[trackdex].append(posx)
                             self.full_pos_list[trackdex].append(posy)
                         except IndexError:
-                            self.full_pos_list.append([posx, posy])     
-
+                            self.full_pos_list.append([posx, posy])
 
             # draw output from tools
             self.currentTool.draw()
@@ -223,7 +220,7 @@ class PhysicsGame:
     def create_new_train_button_up(self):
         if self.bridge.train_exit:
             self.bridge.create_train(force=True)
-    
+
     def restart_button_up(self):
         if self.bridge.train_off_screen:
             self.bridge.restart()

@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
 from functools import partial
 
 from math import fabs
@@ -31,9 +32,6 @@ from math import sqrt
 from math import atan2
 from math import degrees
 from math import acos
-
-from .locals import *
-import Box2D as box2d
 
 
 def calc_center(points):
@@ -55,7 +53,7 @@ def poly_center_vertices(pointlist):
         Return: pointlist ([(x, y), ...])
     """
     poly_points_center = []
-    center = cx, cy = calc_center(pointlist)
+    cx, cy = calc_center(pointlist)
 
     for p in pointlist:
         x = p[0] - cx
@@ -91,13 +89,13 @@ def is_line(vertices, tolerance=25.0):
         vx, vy = (x2 - x1, y2 - y1)
 
         # Check Length
-        l = sqrt((vx * vx) + (vy * vy))
-        if l == 0.0:
+        vector_length = sqrt((vx * vx) + (vy * vy))
+        if vector_length == 0.0:
             continue
 
         # Normalize vector
-        vx /= l
-        vy /= l
+        vx /= vector_length
+        vy /= vector_length
 
         # Append angle
         if fabs(vx) < 0.2:
@@ -121,8 +119,11 @@ def is_line(vertices, tolerance=25.0):
 
 
 def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
-    """ This function reduces a poly by the angles of the vectors (detect lines)
-        If the angle difference from one vector to the last > tolerance: use last point
+    """
+        This function reduces a poly by the angles of the vectors
+        (detect lines)
+        If the angle difference from one vector to the last > tolerance:
+        use last point
         If the angle is quite the same, it's on the line
 
         Parameters:
@@ -170,7 +171,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
         # We have a bug here sometimes...
         try:
             angle = degrees(acos(a / (b * c)))
-        except:
+        except Exception:
             # cos=1.0
             print("cos=", a / (b * c))
             continue
@@ -178,13 +179,15 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
         # Check if inside tolerance
         if fabs(angle) > tolerance:
             p_new.append(vertices[i])
-            # print "x", 180-angle, is_left(vertices[i-1], vertices[i], vertices[i+1])
+            # print "x", 180-angle, is_left(vertices[i-1], vertices[i],
+            # vertices[i+1])
 
             # Check if convex:
-            if dir == None:
+            if dir is None:
                 dir = is_left(vertices[i - 1], vertices[i], vertices[i + 1])
             else:
-                if dir != is_left(vertices[i - 1], vertices[i], vertices[i + 1]):
+                if dir != is_left(
+                        vertices[i - 1], vertices[i], vertices[i + 1]):
                     is_convex = False
 
     # We also want to append the last point :)
@@ -215,11 +218,11 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
         vx, vy = (x2 - x1, y2 - y1)
 
         # Vector length
-        l = sqrt((vx * vx) + (vy * vy))
+        vector_length = sqrt((vx * vx) + (vy * vy))
 
         # normalize
-        vx /= l
-        vy /= l
+        vx /= vector_length
+        vy /= vector_length
 
         # Get Angle
         if fabs(vx) < 0.2:
@@ -227,7 +230,7 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
         else:
             alpha = degrees(atan2(vy, vx))
 
-        if alpha_old == None:
+        if alpha_old is None:
             alpha_old = alpha
             continue
 
@@ -251,9 +254,10 @@ def reduce_poly_by_angle(vertices, tolerance=10.0, minlen=20):
 # The following functions is_left, reduce_poly and convex_hull are
 # from the pymunk project (http://code.google.com/p/pymunk/)
 def is_left(p0, p1, p2):
-    """Test if p2 is left, on or right of the (infinite) line (p0,p1).
+    """
+        Test if p2 is left, on or right of the (infinite) line (p0,p1).
 
-    :return: > 0 for p2 left of the line through p0 and p1
+        :return: > 0 for p2 left of the line through p0 and p1
         = 0 for p2 on the line
         < 0 for p2 right of the line
     """
@@ -268,11 +272,12 @@ def is_left(p0, p1, p2):
 
 
 def is_convex(points):
-    """Test if a polygon (list of (x,y)) is strictly convex or not.
-
-    :return: True if the polygon is convex, False otherwise
     """
-    #assert len(points) > 2, "not enough points to form a polygon"
+        Test if a polygon (list of (x,y)) is strictly convex or not.
+
+        :return: True if the polygon is convex, False otherwise
+    """
+    # assert len(points) > 2, "not enough points to form a polygon"
 
     p0 = points[0]
     p1 = points[1]
@@ -302,10 +307,11 @@ def sign(x):
 
 
 def reduce_poly(points, tolerance=50):
-    """Remove close points to simplify a polyline
-    tolerance is the min distance between two points squared.
+    """
+        Remove close points to simplify a polyline
+        tolerance is the min distance between two points squared.
 
-    :return: The reduced polygon as a list of (x,y)
+        :return: The reduced polygon as a list of (x,y)
     """
     curr_p = points[0]
     reduced_ps = [points[0]]
@@ -315,8 +321,8 @@ def reduce_poly(points, tolerance=50):
         x2, y2 = p
         dx = fabs(x2 - x1)
         dy = fabs(y2 - y1)
-        l = sqrt((dx * dx) + (dy * dy))
-        if l > tolerance:
+        distance = sqrt((dx * dx) + (dy * dy))
+        if distance > tolerance:
             curr_p = p
             reduced_ps.append(p)
 
@@ -324,10 +330,11 @@ def reduce_poly(points, tolerance=50):
 
 
 def convex_hull(points):
-    """Create a convex hull from a list of points.
-    This function uses the Graham Scan Algorithm.
+    """
+        Create a convex hull from a list of points.
+        This function uses the Graham Scan Algorithm.
 
-    :return: Convex hull as a list of (x,y)
+        :return: Convex hull as a list of (x,y)
     """
     # Find lowest rightmost point
     p0 = points[0]
@@ -351,14 +358,14 @@ def convex_hull(points):
 
         pt1 = hull[-1]
         pt2 = hull[-2]
-        l = is_left(pt2, pt1, p)
-        if l > 0:
+        left_check = is_left(pt2, pt1, p)
+        if left_check > 0:
             hull.append(p)
         else:
-            while l <= 0 and len(hull) > 2:
+            while left_check <= 0 and len(hull) > 2:
                 hull.pop()
                 pt1 = hull[-1]
                 pt2 = hull[-2]
-                l = is_left(pt2, pt1, p)
+                left_check = is_left(pt2, pt1, p)
             hull.append(p)
     return hull

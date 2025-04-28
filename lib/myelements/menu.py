@@ -8,7 +8,7 @@ Home:  http://elements.linuxuser.at
 IRC:   #elements on irc.freenode.org
 
 Code:  http://www.assembla.com/wiki/show/elements
-       svn co http://svn2.assembla.com/svn/elements                     
+       svn co http://svn2.assembla.com/svn/elements
 
 License:  GPLv3 | See LICENSE for the full text
 This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,10 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.              
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+
 import pygame
-from pygame.locals import *
 
 from . import tools
 
@@ -60,7 +60,7 @@ class MenuItem:
         self.font = pygame.font.Font(None, 32)
         text = self.font.render(title, 1, (255, 255, 255))
 
-        rx, ry, rw, rh = rect = text.get_rect()
+        rx, ry, rw, rh = text.get_rect()
         pl, pt, pr, pb = self.padding
 
         s1 = pygame.Surface((rw + pl + pr, rh + pt + pb))
@@ -90,7 +90,8 @@ class MenuItem:
 
 
 class MenuClass:
-    """ Important: Never delete an Item, just overwrite it if deleting,
+    """
+        Important: Never delete an Item, just overwrite it if deleting,
         else the menuitem id's get messed up
     """
     # current active menu point it
@@ -151,9 +152,11 @@ class MenuClass:
         return len(self.items)
 
     def click(self, pos):
-        """ Checks a click for menuitems and starts the callback if found
+        """
+            Checks a click for menuitems and starts the callback if found
 
-            Return: True if a menu item was found or hit the MenuBar, and False if not
+            Return: True if a menu item was found or hit the MenuBar,
+            and False if not
         """
         focus_in = self.focus
 
@@ -186,7 +189,8 @@ class MenuClass:
             return False
 
     def draw(self, surface):
-        """ Draw the menu with pygame on a given surface
+        """
+            Draw the menu with pygame on a given surface
         """
         s = pygame.Surface((self.width, self.height))
         s.fill(tools.hex2rgb(COLOR_HEX_BLUE1))

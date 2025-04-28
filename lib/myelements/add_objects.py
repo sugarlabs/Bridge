@@ -24,7 +24,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
-from .locals import *
+
+from .locals import INPUT_PIXELS
 import Box2D as box2d
 
 # Imports
@@ -42,7 +43,8 @@ class Add:
         self.parent = parent
 
     def ground(self):
-        """ Add a static ground to the scene
+        """
+            Add a static ground to the scene
 
             Return: box2d.b2Body
         """
@@ -57,7 +59,9 @@ class Add:
             restitution=0.16,
             friction=0.5,
             screenCoord=True):
-        """ Add a triangle | pos & a in the current input unit system (meters or pixels)
+        """
+            Add a triangle | pos & a in the current input unit system
+            (meters or pixels)
 
             Parameters:
               pos .... position (x,y)
@@ -86,8 +90,11 @@ class Add:
             restitution=0.16,
             friction=0.5,
             screenCoord=True):
-        """ Add a dynamic ball at pos after correcting the positions and legths to the internal
-            meter system if neccessary (if INPUT_PIXELS), then call self._add_ball(...)
+        """
+            Add a dynamic ball at pos after correcting the positions and
+            legths to the internal
+            meter system if neccessary (if INPUT_PIXELS),
+            then call self._add_ball(...)
 
             Parameters:
               pos ..... position (x,y)
@@ -163,7 +170,9 @@ class Add:
             restitution=0.16,
             friction=0.5,
             screenCoord=True):
-        """ Add a dynamic rectangle with input unit according to self.input (INPUT_PIXELS or INPUT_METERS)
+        """
+            Add a dynamic rectangle with input unit according to self.input
+            (INPUT_PIXELS or INPUT_METERS)
             Correcting the positions to meters and calling self._add_rect()
 
             Parameters:
@@ -204,8 +213,11 @@ class Add:
             restitution=0.16,
             friction=0.5,
             screenCoord=True):
-        """ Add a static rectangle between two arbitrary points with input unit according to self.input
-            (INPUT_PIXELS or INPUT_METERS) Correcting the positions to meters and calling self._add_rect()
+        """
+            Add a static rectangle between two arbitrary points
+            with input unit according to self.input
+            (INPUT_PIXELS or INPUT_METERS) Correcting the positions
+            to meters and calling self._add_rect()
 
             Return: box2d.b2Body
         """
@@ -295,8 +307,11 @@ class Add:
             restitution=0.16,
             friction=0.5,
             screenCoord=True):
-        """ Add a dynamic polygon, which has the vertices arranged around the poly's center at pos
-            Correcting the positions to meters if INPUT_PIXELS, and calling self._add_poly()
+        """
+            Add a dynamic polygon, which has the vertices arranged around
+            the poly's center at pos
+            Correcting the positions to meters if INPUT_PIXELS,
+            and calling self._add_poly()
 
             Parameters:
               pos ....... position (x,y)
@@ -424,7 +439,6 @@ class Add:
         polyDef.friction = friction
 
         circleShape = box2d.b2CircleShape()
-        circleShape.radius = radius
         circleDef = box2d.b2FixtureDef()
         circleDef.shape = circleShape
         circleDef.density = density
@@ -490,9 +504,9 @@ class Add:
         x2, y2 = vertices[-1]
         dx = x2 - x1
         dy = y2 - y1
-        l = sqrt((dx * dx) + (dy * dy))
+        distance = sqrt((dx * dx) + (dy * dy))
 
-        if l < 50:
+        if distance < 50:
             vertices[-1] = vertices[0]
         else:
             # Never convex if open (we decide so :)
@@ -519,8 +533,11 @@ class Add:
             density=1.0,
             restitution=0.16,
             friction=0.5):
-        """ Add a complex polygon with vertices in absolute positions (meters or pixels, according
-            to INPUT_PIXELS or INPUT_METERS). This function does the reduction and convec hulling
+        """
+            Add a complex polygon with vertices in absolute positions
+            (meters or pixels, according
+            to INPUT_PIXELS or INPUT_METERS). This function does the reduction
+            and convec hulling
             of the poly, and calls add_poly(...)
 
             Parameters:
@@ -529,8 +546,10 @@ class Add:
 
             Return: box2d.b2Body
         """
-        # NOTE: Box2D has a maximum poly vertex count, defined in Common/box2d.b2Settings.h (box2d.b2_maxPolygonVertices)
-        # We need to make sure, that we reach that by reducing the poly with increased tolerance
+        # NOTE: Box2D has a maximum poly vertex count,
+        # defined in Common/box2d.b2Settings.h (box2d.b2_maxPolygonVertices)
+        # We need to make sure, that we reach that by reducing the poly with
+        # increased tolerance
         # Reduce Polygon
         tolerance = 10  # 5
         v_new = vertices
@@ -538,8 +557,10 @@ class Add:
             tolerance += 1
             v_new = tools_poly.reduce_poly(vertices, tolerance)
 
-        print("convexPoly: Polygon reduced from %i to %i vertices | tolerance: %i" % (
-            len(vertices), len(v_new), tolerance))
+        msg = ("convexPoly: Polygon reduced from %i to %i vertices | "
+               "tolerance: %i")
+        print(msg % (len(vertices), len(v_new), tolerance))
+
         vertices = v_new
 
         # So poly should be alright now
