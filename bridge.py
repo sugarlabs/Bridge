@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import random
 import pygame
 from gi.repository import Gdk
 
@@ -37,7 +38,13 @@ class Bridge:
         self.level_completed = False
         self.sounds = {"wooo": loadSound("sounds/wooo.wav"),
                        "death": loadSound("sounds/death.wav"),
-                       "startup": loadSound("sounds/startup.wav")}
+                       "startup": loadSound("sounds/startup.wav"),
+                       "wooo1": loadSound("sounds/wooo1.wav"),
+                       "wooo2": loadSound("sounds/wooo2.wav"),
+                       "death1": loadSound("sounds/death1.wav"),
+                       "death2": loadSound("sounds/death2.wav"),
+                       "startup1": loadSound("sounds/startup1.wav")
+                      }
 
     def restart(self):
         self.world.run_physics = False
@@ -117,10 +124,23 @@ class Bridge:
             self.train_exit = True
             if not self.level_completed:
                 self.level_completed = True
-                self.sounds['wooo'].play()
+                soundSelection = random.randint(0, 2)
+                if soundSelection == 0:
+                    self.sounds['wooo'].play()
+                elif soundSelection == 1:
+                    self.sounds['wooo1'].play()
+                else:
+                    self.sounds['wooo2'].play()
+                
         elif pos.y < 0.0:
             if not self.train_off_screen:
-                self.sounds['death'].play()
+                soundSelection = random.randint(0, 2)
+                if soundSelection == 0:
+                    self.sounds['death'].play()
+                elif soundSelections == 1:
+                    self.sounds['death1'].play()
+                else:
+                    self.sounds['death2'].play()
                 print("TRAIN FELL OFF!", pos.x)
                 self.train_off_screen = True
 
@@ -132,7 +152,11 @@ class Bridge:
         self.train_exit = False
         if not force and self.train_was_created:
             return
-        self.sounds['startup'].play()
+        soundSelection = random.randint(0, 1)
+        if soundSelection == 0:
+            self.sounds['startup'].play()
+        else:
+            self.sounds['startup1'].play()
         self.train_was_created = True
         points = []
         self.train_off_screen = False
