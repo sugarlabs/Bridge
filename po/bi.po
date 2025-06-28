@@ -1,0 +1,73 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-23 00:39+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: bi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: activity/activity.info:2
+msgid "Bridge"
+msgstr ""
+
+#: activity/activity.info:3
+msgid ""
+"Bridge is engaging and entertaining aimed at teaching the basics of "
+"mechanical engineering through building a bridge across a ravine."
+msgstr ""
+
+#: physics.py:181
+#, python-format
+msgid "Total Cost: %d"
+msgstr ""
+
+#: physics.py:186
+#, python-format
+msgid "Stress: %d%%"
+msgstr ""
+
+#: physics.py:192
+msgid "Train fell off the screen, press R to try again!"
+msgstr ""
+
+#: physics.py:196
+msgid "Level completed, well done!!"
+msgstr ""
+
+#: physics.py:200
+msgid "Press T to send another train."
+msgstr ""
+
+#: physics.py:204
+msgid "Press the Spacebar to start/pause."
+msgstr ""
+
+#: tools.py:92
+msgid "Circle"
+msgstr ""
+
+#: tools.py:141
+msgid "Girder"
+msgstr ""
+
+#: tools.py:219
+msgid "Grab"
+msgstr ""
+
+#: tools.py:253
+msgid "Destroy"
+msgstr ""
+
+#: tools.py:298
+msgid "Bridge Joint"
+msgstr ""
